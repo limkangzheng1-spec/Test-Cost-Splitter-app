@@ -1,0 +1,2618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hangout Expense Splitter</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons via unpkg -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Built-in Self-Contained SVG Icon Engine (Guarantees icons work 100% offline, on any network, and inside GAS iframes) -->
+  <script>
+    (function() {
+      const ICON_SVGS = {
+        'receipt': '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
+        'calendar': '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+        'calendar-plus': '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M10 16h4"/><path d="M12 14v4"/>',
+        'info': '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+        'share-2': '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+        'send': '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+        'eye': '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',
+        'user': '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+        'user-check': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
+        'users': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        'utensils': '<path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M12 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+        'arrow-left-right': '<path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>',
+        'arrow-up-right': '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+        'arrow-down-left': '<path d="M17 17H7V7"/><path d="M17 7 7 17"/>',
+        'plus': '<path d="M5 12h14"/><path d="M12 5v14"/>',
+        'check': '<polyline points="20 6 9 17 4 12"/>',
+        'check-circle': '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+        'check-circle-2': '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+        'sliders-horizontal': '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',
+        'languages': '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>',
+        'sun': '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+        'moon': '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+        'x': '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+        'camera': '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+        'upload': '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>',
+        'cloud-upload': '<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4-4-4 4"/>',
+        'trash-2': '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
+        'edit-3': '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+        'loader': '<line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/>',
+        'message-square': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+        'copy': '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+        'external-link': '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+        'settings': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+        'alert-circle': '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',
+        'alert-triangle': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>'
+      };
+
+      function renderIconsInternal() {
+        try {
+          const els = document.querySelectorAll('[data-lucide]');
+          els.forEach(function(el) {
+            const name = el.getAttribute('data-lucide');
+            if (ICON_SVGS[name]) {
+              const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+              svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+              svg.setAttribute('viewBox', '0 0 24 24');
+              svg.setAttribute('fill', 'none');
+              svg.setAttribute('stroke', 'currentColor');
+              svg.setAttribute('stroke-width', '2');
+              svg.setAttribute('stroke-linecap', 'round');
+              svg.setAttribute('stroke-linejoin', 'round');
+              svg.setAttribute('class', el.getAttribute('class') || 'w-4 h-4');
+              svg.innerHTML = ICON_SVGS[name];
+              if (el.id) svg.id = el.id;
+              if (el.parentNode) {
+                el.parentNode.replaceChild(svg, el);
+              }
+            }
+          });
+        } catch(e) {
+          console.warn('SVG render warning:', e);
+        }
+      }
+
+      var lucide = window.lucide = window.lucide || {};
+      const originalCreateIcons = window.lucide.createIcons;
+      function safeCreateIcons() {
+        if (typeof originalCreateIcons === 'function') {
+          try {
+            originalCreateIcons();
+            return;
+          } catch(e) {}
+        }
+        renderIconsInternal();
+      }
+      window.lucide.createIcons = safeCreateIcons;
+      window.safeCreateIcons = safeCreateIcons;
+    })();
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Hide scrollbars for slick mobile look */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col items-center justify-start antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Mobile Container Wrapper -->
+  <div id="appContainer" class="w-full max-w-md min-h-screen bg-white shadow-2xl flex flex-col relative pb-20">
+
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold shadow-md shadow-indigo-200">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base text-slate-800 leading-tight">Hangout Split</h1>
+          <p id="subHeaderEvent" class="text-xs text-slate-500 font-medium">Select an event</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="btnSwitchEvent" onclick="switchEventModal()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1 transition">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span>Event</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Global Alert / Status Toast -->
+    <div id="toastContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] w-11/12 max-w-sm transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-2">
+      <div id="toastMessage" class="px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-medium flex items-center gap-2.5 bg-slate-900 text-white border border-slate-700">
+        <i id="toastIcon" data-lucide="info" class="w-4 h-4 text-indigo-400 shrink-0"></i>
+        <span id="toastText" class="leading-relaxed">Action completed</span>
+      </div>
+    </div>
+
+    <!-- MAIN VIEWS CONTAINER -->
+    <main class="flex-1 p-4 overflow-y-auto">
+
+      <!-- ============================================== -->
+      <!-- VIEW 1: NORMAL USER (SUMMARY & NET SETTLEMENT) -->
+      <!-- ============================================== -->
+      <section id="viewUser" class="space-y-5">
+        <!-- Event & Friend Selector Card -->
+        <div class="bg-gradient-to-br from-indigo-50 to-slate-50 p-4 rounded-2xl border border-indigo-100/80 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Member Overview</span>
+            <span id="badgeEventDate" class="text-xs bg-white px-2 py-0.5 rounded-md text-slate-600 border border-slate-200">No Date</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Select Your Name:</label>
+            <div class="relative">
+              <select id="userFriendSelect" onchange="renderUserView()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">-- Choose Friend --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp Summary Share Banner -->
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-4 rounded-2xl shadow-md space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                <i data-lucide="share-2" class="w-4 h-4 text-white"></i>
+              </div>
+              <div>
+                <h4 id="lblSendSummaryTitle" class="font-bold text-xs sm:text-sm leading-tight">Send Expense Summary</h4>
+                <p id="lblSendSummaryDesc" class="text-[10px] text-emerald-100 font-medium">Share "who owes who" summary via WhatsApp with 1-click</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <button type="button" onclick="handleShareSummaryClick()" class="flex-1 bg-white hover:bg-emerald-50 text-emerald-800 font-bold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 shadow-xs transition active:scale-95 cursor-pointer">
+              <i data-lucide="send" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span id="lblSendSummaryBtn">Send Summary & Debts via WhatsApp</span>
+            </button>
+            <button type="button" onclick="openWhatsAppModal()" class="bg-emerald-800/40 hover:bg-emerald-800/60 text-white font-medium text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition active:scale-95 cursor-pointer border border-white/20 shrink-0" title="Preview & Copy">
+              <i data-lucide="eye" class="w-3.5 h-3.5 text-emerald-100"></i>
+              <span id="lblPreviewBtnText" class="text-[11px] font-semibold">Preview</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State if no friend selected -->
+        <div id="userEmptyPrompt" class="text-center py-12 px-4 space-y-3">
+          <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center">
+            <i data-lucide="user-check" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-slate-800">Select your name above</h3>
+          <p class="text-xs text-slate-500 max-w-xs mx-auto">See your itemized food orders, tax breakdowns, and who you owe or who owes you.</p>
+        </div>
+
+        <!-- Friend Details Container (Visible when friend selected) -->
+        <div id="userDetailContent" class="space-y-5 hidden">
+          
+          <!-- Quick Stat KPI -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-xs text-slate-500 font-medium">My Total Consumption</p>
+              <h3 id="statMyConsumption" class="text-xl font-extrabold text-slate-900 mt-1">$0.00</h3>
+              <p class="text-[10px] text-slate-400 mt-0.5">Includes taxes & service</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-xs text-slate-500 font-medium">Net Status</p>
+              <h3 id="statMyNetStatus" class="text-xl font-extrabold text-indigo-600 mt-1">$0.00</h3>
+              <p id="statMyNetSubtitle" class="text-[10px] text-slate-400 mt-0.5">Overall balance</p>
+            </div>
+          </div>
+
+          <!-- Section A: Individual Itemized Consumption -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+                <i data-lucide="utensils" class="w-4 h-4 text-indigo-600"></i>
+                <span>My Itemized Orders</span>
+              </h2>
+              <span id="myItemsCountBadge" class="text-xs font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">0 items</span>
+            </div>
+
+            <div id="myItemsList" class="space-y-2">
+              <!-- Item Cards Injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Section B: Net Balance Matrix (Who Owes Whom) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+                <i data-lucide="arrow-left-right" class="w-4 h-4 text-emerald-600"></i>
+                <span>Who Owes Whom (Settlement)</span>
+              </h2>
+              <span class="text-xs text-slate-500">Event Matrix</span>
+            </div>
+
+            <div id="debtMatrixList" class="space-y-2">
+              <!-- Direct settlements injected dynamically -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 2: PAIDER (EXPENSE CREATOR) -->
+      <!-- ============================================== -->
+      <section id="viewPaider" class="space-y-5 hidden">
+        
+        <!-- Activities List Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="font-bold text-base text-slate-900">Hangout Sessions</h2>
+            <p class="text-xs text-slate-500">Breakfast, karaoke, dinner, drinks...</p>
+          </div>
+          <button onclick="openActivityEditor()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1 shadow-md shadow-indigo-100 transition active:scale-95">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Add Session</span>
+          </button>
+        </div>
+
+        <!-- Activity Cards List -->
+        <div id="activitiesList" class="space-y-3">
+          <!-- Populated dynamically -->
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 3: ADMIN (DIRECT ACCESS)                  -->
+      <!-- ============================================== -->
+      <section id="viewAdmin" class="space-y-5 hidden">
+        
+        <!-- Admin Dashboard (Direct Access - No PIN Required) -->
+        <div id="adminDashboardSection" class="space-y-6">
+          <div class="flex items-center justify-between pb-1">
+            <div>
+              <h2 id="lblAdminTitle" class="font-bold text-base text-slate-900">Admin Management</h2>
+              <p id="lblAdminDesc" class="text-xs text-slate-500">Configure hangout dates, manage attendee rosters, and system preferences.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-700 flex items-center gap-1 shrink-0">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span id="lblAdminDirectAccess">Direct Access</span>
+            </span>
+          </div>
+
+          <!-- System Preferences (Language & Theme) -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4 text-indigo-600"></i>
+              <span id="lblSysPrefTitle">System Preferences</span>
+            </h3>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <!-- Language Toggle -->
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                    <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <div>
+                    <p id="lblLangTitle" class="text-xs font-bold text-slate-800">Language</p>
+                    <p id="lblLangDesc" class="text-[10px] text-slate-400">English / 中文</p>
+                  </div>
+                </div>
+                <div class="flex bg-slate-200 p-0.5 rounded-lg text-xs font-bold">
+                  <button id="btnLangEn" onclick="setLanguage('en')" class="flex-1 py-1 rounded-md text-center transition bg-white text-indigo-700 shadow-xs">
+                    EN
+                  </button>
+                  <button id="btnLangZh" onclick="setLanguage('zh')" class="flex-1 py-1 rounded-md text-center transition text-slate-600 hover:text-slate-900">
+                    中文
+                  </button>
+                </div>
+              </div>
+
+              <!-- Theme Toggle -->
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+                    <i id="themeIcon" data-lucide="sun" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <div>
+                    <p id="lblThemeTitle" class="text-xs font-bold text-slate-800">Theme</p>
+                    <p id="lblThemeDesc" class="text-[10px] text-slate-400">Light / Dark</p>
+                  </div>
+                </div>
+                <div class="flex bg-slate-200 p-0.5 rounded-lg text-xs font-bold">
+                  <button id="btnThemeLight" onclick="setTheme('light')" class="flex-1 py-1 rounded-md text-center transition bg-white text-amber-600 shadow-xs flex items-center justify-center gap-1">
+                    <i data-lucide="sun" class="w-3 h-3"></i>
+                    <span>Light</span>
+                  </button>
+                  <button id="btnThemeDark" onclick="setTheme('dark')" class="flex-1 py-1 rounded-md text-center transition text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1">
+                    <i data-lucide="moon" class="w-3 h-3"></i>
+                    <span>Dark</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Event Creation Card -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="calendar-plus" class="w-4 h-4 text-indigo-600"></i>
+              <span>Create New Hangout Event</span>
+            </h3>
+            <div class="space-y-2">
+              <input type="text" id="newEventName" placeholder="e.g. 2026-09-25 Genting Trip" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <input type="date" id="newEventDate" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <button onclick="handleCreateEvent()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-xs transition active:scale-95 shadow-md shadow-indigo-100">
+                Create Event
+              </button>
+            </div>
+          </div>
+
+          <!-- Manage Friends Card -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+                <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i>
+                <span>Manage Event Attendees</span>
+              </h3>
+              <span id="adminFriendCountBadge" class="text-xs bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded-full">0 Friends</span>
+            </div>
+
+            <!-- Add friend input -->
+            <div class="flex gap-2">
+              <input type="text" id="newFriendName" placeholder="Friend Name (e.g. Alex, Sam)" class="flex-1 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <button onclick="handleAddFriend()" class="bg-slate-900 hover:bg-black text-white px-3.5 py-2 rounded-xl text-xs font-semibold transition active:scale-95">
+                Add
+              </button>
+            </div>
+
+            <!-- Friends Tag / List -->
+            <div id="adminFriendsList" class="flex flex-wrap gap-1.5 pt-1">
+              <!-- Friend chips -->
+            </div>
+          </div>
+
+          <!-- All Events List -->
+          <div class="space-y-3">
+            <h3 class="font-bold text-sm text-slate-900">All Hangout Events</h3>
+            <div id="adminEventsList" class="space-y-2">
+              <!-- Injected events -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ============================================== -->
+    <!-- MODAL: ACTIVITY & LINE ITEMS EDITOR (PAIDER)   -->
+    <!-- ============================================== -->
+    <div id="activityEditorModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex flex-col justify-end sm:justify-center items-center p-0 sm:p-4 hidden">
+      <div class="bg-white w-full max-w-md max-h-[92vh] rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-200">
+        
+        <!-- Modal Header -->
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+          <div>
+            <h3 id="actModalTitle" class="font-bold text-base text-slate-900">Add Hangout Session</h3>
+            <p class="text-xs text-slate-500">Record line items, payer & taxes</p>
+          </div>
+          <button onclick="closeActivityEditor()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-300">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body (Scrollable) -->
+        <div class="p-5 overflow-y-auto space-y-5 flex-1 no-scrollbar">
+
+          <!-- Activity Basic Details -->
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Session / Place Name *</label>
+              <input type="text" id="inputActName" placeholder="e.g. Din Tai Fung / Haidilao" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500" />
+            </div>
+
+            <div>
+              <label id="lblWhoPaid" class="block text-xs font-semibold text-slate-700 mb-1">Who Paid for this Session? *</label>
+              <select id="selectActPayer" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                <!-- Injected friend options -->
+              </select>
+            </div>
+
+            <!-- Taxes configuration (SST & Service Tax) -->
+            <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">SST Tax (%)</label>
+                <input type="number" id="inputActSst" value="6" step="0.5" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Service Tax (%)</label>
+                <input type="number" id="inputActServiceTax" value="10" step="0.5" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold" />
+              </div>
+            </div>
+          </div>
+
+          <!-- RECEIPT OCR SCANNER & MANUAL ADD BUTTONS -->
+          <div class="pt-2 border-t border-slate-100">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-bold text-slate-800 uppercase tracking-wider">Line Items</label>
+              <div class="flex items-center gap-1.5">
+                <!-- Camera AI Scan Input -->
+                <label class="cursor-pointer bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-2 py-1.5 rounded-lg flex items-center gap-1 shadow-sm transition active:scale-95" title="Snap photo with camera">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                  <span>Camera</span>
+                  <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden" onchange="handleReceiptScan(event)" />
+                </label>
+                <!-- Upload from Phone Storage Button -->
+                <label class="cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-2 py-1.5 rounded-lg flex items-center gap-1 shadow-sm transition active:scale-95" title="Upload from phone gallery / files">
+                  <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                  <span>Upload</span>
+                  <input type="file" id="uploadInput" accept="image/*" class="hidden" onchange="handleReceiptScan(event)" />
+                </label>
+                <!-- Add Line Item Button -->
+                <button onclick="addLineItemRow()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-2 py-1.5 rounded-lg flex items-center gap-1 shadow-sm transition active:scale-95">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Item</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Smart Receipt Guard Funny Sarcastic Roast Banner -->
+            <div id="ocrRoastBanner" class="hidden bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 text-amber-950 rounded-2xl p-3.5 text-xs shadow-md mb-3 animate-in fade-in duration-200">
+              <div class="flex items-start gap-2.5">
+                <span class="text-2xl select-none leading-none mt-0.5">🤨</span>
+                <div class="flex-1 space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-extrabold text-[12px] text-amber-900 tracking-tight flex items-center gap-1.5">
+                      <span>HOLD UP BRO...</span>
+                      <span class="text-[9px] uppercase font-bold bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded-full">Not A Receipt</span>
+                    </span>
+                    <button type="button" onclick="dismissRoastBanner()" class="text-amber-600 hover:text-amber-900 p-0.5 rounded-lg">
+                      <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <p id="ocrRoastMessage" class="text-slate-800 font-medium text-xs leading-relaxed"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- OCR Loading State -->
+            <div id="ocrLoadingState" class="hidden bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-3 text-xs flex items-center gap-2 mb-3 animate-pulse">
+              <i data-lucide="loader" class="w-4 h-4 animate-spin text-amber-600"></i>
+              <span id="ocrLoadingText">Gemini Vision is reading receipt items...</span>
+            </div>
+
+            <!-- Items List -->
+            <div id="lineItemsContainer" class="space-y-3">
+              <!-- Item rows injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Total Preview Box -->
+          <div class="bg-slate-900 text-white p-3.5 rounded-2xl space-y-1.5">
+            <div class="flex justify-between text-xs text-slate-400">
+              <span>Items Subtotal:</span>
+              <span id="previewSubtotal">$0.00</span>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400">
+              <span>Tax Multiplier:</span>
+              <span id="previewTaxMult">1.16x (+16%)</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold pt-1.5 border-t border-slate-800">
+              <span>Total with Taxes:</span>
+              <span id="previewGrandTotal" class="text-indigo-400 font-extrabold text-base">$0.00</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="p-4 border-t border-slate-100 flex items-center gap-3 bg-white">
+          <button onclick="closeActivityEditor()" class="flex-1 py-2.5 rounded-xl border border-slate-300 font-semibold text-xs text-slate-700 hover:bg-slate-50">
+            Cancel
+          </button>
+          <button id="btnSaveActivity" onclick="saveCurrentActivity()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-200 active:scale-95 transition">
+            Save to Sheets
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL: SAVING BUFFER & PROGRESS ANIMATION      -->
+    <!-- ============================================== -->
+    <div id="savingBufferModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+      <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-5">
+        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-inner">
+          <i data-lucide="cloud-upload" class="w-7 h-7 text-indigo-600 animate-pulse"></i>
+        </div>
+        <div>
+          <h3 id="lblSavingModalTitle" class="font-bold text-base text-slate-900">Saving Session Record</h3>
+          <p id="lblSavingModalDesc" class="text-xs text-slate-500 mt-0.5">Syncing data to Google Drive & Google Sheets</p>
+        </div>
+
+        <!-- 3 Animated Steps -->
+        <div class="space-y-3 text-left bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs">
+          <!-- Step 1 -->
+          <div class="flex items-center gap-3" id="stepSave1">
+            <div id="stepSave1Icon" class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </div>
+            <div>
+              <p id="stepSave1Title" class="font-semibold text-slate-900">Receipt Photo Compression</p>
+              <p id="stepSave1Subtitle" class="text-[10px] text-slate-400">High-fidelity optimization completed</p>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="flex items-center gap-3" id="stepSave2">
+            <div id="stepSave2Icon" class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-indigo-600 text-white animate-pulse">
+              <i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>
+            </div>
+            <div>
+              <p id="stepSave2Title" class="font-semibold text-slate-900">Uploading Receipt to Google Drive (~10s)</p>
+              <p id="stepSave2Subtitle" class="text-[10px] text-slate-400">Transferring data to Drive storage...</p>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="flex items-center gap-3" id="stepSave3">
+            <div id="stepSave3Icon" class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-slate-200 text-slate-500 font-bold text-[11px]">
+              3
+            </div>
+            <div>
+              <p id="stepSave3Title" class="font-semibold text-slate-400">Allocating Taxes & Syncing Session</p>
+              <p id="stepSave3Subtitle" class="text-[10px] text-slate-400">Ready to write record to Sheets</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-[11px] text-amber-800 bg-amber-50 px-3 py-2 rounded-xl border border-amber-200 flex items-center gap-2">
+          <i data-lucide="loader" class="w-3.5 h-3.5 animate-spin text-amber-600 shrink-0"></i>
+          <span id="lblSavingBufferNotice">Uploading high-res receipt to Google Drive & calculating split debts...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL: EVENT SELECTOR                          -->
+    <!-- ============================================== -->
+    <div id="eventSelectModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+      <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-base text-slate-900">Select Hangout Event</h3>
+          <button onclick="closeEventModal()" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div id="eventSelectList" class="space-y-2 max-h-60 overflow-y-auto">
+          <!-- Event options -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL: WHATSAPP SUMMARY GENERATOR & SHARE       -->
+    <!-- ============================================== -->
+    <div id="whatsAppModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 hidden animate-in fade-in duration-200">
+      <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden border border-slate-200">
+        <!-- Header -->
+        <div class="px-5 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <i data-lucide="share-2" class="w-4 h-4 text-white"></i>
+            </div>
+            <div>
+              <h3 id="lblWaModalTitle" class="font-bold text-sm text-white leading-tight">WhatsApp Expense Summary</h3>
+              <p id="lblWaModalDesc" class="text-[10px] text-emerald-100">Send formatted debts and breakdown directly to WhatsApp</p>
+            </div>
+          </div>
+          <button onclick="closeWhatsAppModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+          <!-- WhatsApp Target Information Banner -->
+          <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-emerald-950">
+              <i data-lucide="message-square" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+              <span id="lblWaTargetDesc" class="font-bold text-xs">Share formatted settlements directly to WhatsApp</span>
+            </div>
+            <span class="text-[10px] font-mono bg-emerald-200/70 text-emerald-900 px-2 py-0.5 rounded-md font-semibold">Web / App</span>
+          </div>
+
+          <!-- Message Preview Card -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span id="lblWaPreview" class="font-bold text-slate-700 uppercase tracking-wider text-[11px]">Message Preview</span>
+              <button onclick="copyWhatsAppMessage()" id="btnCopyWa" class="text-emerald-700 hover:text-emerald-800 font-bold text-xs flex items-center gap-1 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 transition active:scale-95 cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span id="btnCopyWaText">Copy Text</span>
+              </button>
+            </div>
+            <textarea id="waMessageTextarea" readonly rows="12" class="w-full bg-slate-900 text-slate-100 font-mono text-[11px] p-3.5 rounded-2xl border border-slate-800 leading-relaxed resize-none focus:outline-none select-all"></textarea>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center gap-2.5">
+          <button type="button" onclick="closeWhatsAppModal()" id="btnWaClose" class="flex-1 py-2.5 border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold rounded-xl text-xs transition cursor-pointer">
+            Close
+          </button>
+          <a id="btnWaSend" href="#" target="_blank" rel="noopener noreferrer" onclick="handleWaSendClick(event)" class="flex-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-200 transition active:scale-95 cursor-pointer no-underline text-center">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span id="lblWaSendBtnText">Share via WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL: RECEIPT IMAGE LIGHTBOX VIEWER           -->
+    <!-- ============================================== -->
+    <div id="receiptLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 hidden animate-in fade-in duration-200">
+      <div class="relative w-full max-w-lg max-h-[90vh] flex flex-col items-center">
+        <button onclick="closeReceiptLightbox()" class="absolute -top-12 right-0 w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-800 flex flex-col">
+          <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between text-white text-xs">
+            <span id="receiptLightboxTitle" class="font-bold">Receipt Image Source</span>
+            <a id="receiptLightboxDriveLink" href="#" target="_blank" rel="noreferrer" class="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1 underline">
+              <span>Open in Drive</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+          <div class="p-2 flex items-center justify-center max-h-[75vh] overflow-auto">
+            <img id="receiptLightboxImg" src="" alt="Receipt" class="max-w-full max-h-[70vh] object-contain rounded-xl" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- BOTTOM NAVIGATION BAR (SPA ROUTER)             -->
+    <!-- ============================================== -->
+    <nav class="fixed bottom-0 z-30 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 px-6 py-2.5 flex items-center justify-around shadow-lg">
+      <button onclick="navigateView('user')" id="navUserBtn" class="flex flex-col items-center gap-1 text-indigo-600 font-semibold text-[11px] transition">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span>My Bill</span>
+      </button>
+      <button onclick="navigateView('paider')" id="navPaiderBtn" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 font-medium text-[11px] transition">
+        <i data-lucide="receipt" class="w-5 h-5"></i>
+        <span>Expenses</span>
+      </button>
+      <button onclick="navigateView('admin')" id="navAdminBtn" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 font-medium text-[11px] transition">
+        <i data-lucide="settings" class="w-5 h-5"></i>
+        <span>Admin</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- CLIENT-SIDE APPLICATION SCRIPT -->
+  <script>
+    // Safeguard icon rendering
+    var lucide = window.lucide = window.lucide || {};
+    var safeCreateIcons = window.safeCreateIcons || function() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.safeCreateIcons(); } catch (e) { console.warn(e); }
+      }
+    };
+
+    // Hardcoded Google Apps Script deployment URL for WhatsApp sharing
+    const HARDCODED_GAS_URL = "https://script.google.com/macros/s/AKfycbzv4PUNq7QbQTYGE7iyvN0-jqF8Slw6gsVxL0Juxv3ctVmbUebFEAYQuSSAsN5XBnge/exec";
+
+    // State Store
+    let currentEventId = null;
+    let currentEvent = null;
+    let eventsList = [];
+    let friendsList = [];
+    let activitiesList = [];
+    let selectedUserId = '';
+    let isAdminUnlocked = true;
+
+    // Active Activity being edited in modal
+    let editingActivity = {
+      activityId: null,
+      activityName: '',
+      paidByFriendId: '',
+      sstPercent: 6,
+      serviceTaxPercent: 10,
+      lineItems: []
+    };
+
+    // Check if running in Google Apps Script environment
+    const isGAS = typeof google !== 'undefined' && typeof google.script !== 'undefined';
+
+    // Simulated Local Storage / Demo Data if run in normal browser
+    function initSampleData() {
+      eventsList = [
+        { eventId: 'EVT_DEMO_1', eventName: '2026-09-25 Genting Hangout', eventDate: '2026-09-25' }
+      ];
+      friendsList = [
+        { friendId: 'FRD_1', eventId: 'EVT_DEMO_1', friendName: 'Friend A (Alice)' },
+        { friendId: 'FRD_2', eventId: 'EVT_DEMO_1', friendName: 'Friend B (Bob)' },
+        { friendId: 'FRD_3', eventId: 'EVT_DEMO_1', friendName: 'Friend C (Charlie)' },
+        { friendId: 'FRD_4', eventId: 'EVT_DEMO_1', friendName: 'Friend D (Diana)' }
+      ];
+      activitiesList = [
+        {
+          activityId: 'ACT_1',
+          eventId: 'EVT_DEMO_1',
+          activityName: 'Dinner at Din Tai Fung',
+          paidByFriendId: 'FRD_1',
+          sstPercent: 6,
+          serviceTaxPercent: 10,
+          lineItems: [
+            { itemId: 'ITM_1', itemName: 'Xiao Long Bao (10 pcs)', price: 32.00, assignedFriends: 'ALL' },
+            { itemId: 'ITM_2', itemName: 'Pork Chop Fried Rice', price: 28.50, assignedFriends: 'FRD_2' },
+            { itemId: 'ITM_3', itemName: 'Spicy Dumplings', price: 22.00, assignedFriends: 'FRD_1,FRD_3' },
+            { itemId: 'ITM_4', itemName: 'Jasmine Green Tea x4', price: 16.00, assignedFriends: 'ALL' }
+          ]
+        },
+        {
+          activityId: 'ACT_2',
+          eventId: 'EVT_DEMO_1',
+          activityName: 'Karaoke Session',
+          paidByFriendId: 'FRD_2',
+          sstPercent: 6,
+          serviceTaxPercent: 0,
+          lineItems: [
+            { itemId: 'ITM_5', itemName: 'VIP Room (3 Hours)', price: 120.00, assignedFriends: 'ALL' },
+            { itemId: 'ITM_6', itemName: 'Beer Pitcher', price: 45.00, assignedFriends: 'FRD_1,FRD_2,FRD_4' }
+          ]
+        }
+      ];
+      currentEventId = 'EVT_DEMO_1';
+      currentEvent = eventsList[0];
+    }
+
+    function loadAppInitialData() {
+      if (isGAS) {
+        showToast('Loading Google Sheets data...', 'info');
+        google.script.run
+          .withSuccessHandler((events) => {
+            eventsList = events || [];
+            if (eventsList.length > 0) {
+              selectEvent(eventsList[0].eventId);
+            } else {
+              navigateView('admin');
+              showToast('Please create your first event', 'info');
+            }
+          })
+          .withFailureHandler((err) => {
+            showToast('Error loading events: ' + (err && err.message ? err.message : err), 'error');
+          })
+          .getEvents();
+      } else {
+        // Fallback demo data
+        initSampleData();
+        updateEventUI();
+        refreshFriendsDropdown();
+        renderPaiderView();
+        renderUserView();
+      }
+    }
+
+    function selectEvent(eventId) {
+      currentEventId = eventId;
+      currentEvent = eventsList.find(e => e.eventId === eventId);
+      closeEventModal();
+      
+      if (isGAS) {
+        showToast('Fetching event data...', 'info');
+        google.script.run
+          .withSuccessHandler((data) => {
+            friendsList = (data && data.friends) || [];
+            activitiesList = (data && data.activities) || [];
+            updateEventUI();
+            refreshFriendsDropdown();
+            renderPaiderView();
+            renderUserView();
+            renderAdminView();
+            const name = currentEvent ? currentEvent.eventName : 'Event';
+            showToast('Event loaded: ' + name, 'success');
+          })
+          .withFailureHandler((err) => {
+            showToast('Failed to load event: ' + (err && err.message ? err.message : err), 'error');
+          })
+          .getEventDetails(eventId);
+      } else {
+        updateEventUI();
+        refreshFriendsDropdown();
+        renderPaiderView();
+        renderUserView();
+        renderAdminView();
+      }
+    }
+
+    function updateEventUI() {
+      if (!currentEvent) return;
+      document.getElementById('subHeaderEvent').innerText = currentEvent.eventName;
+      document.getElementById('badgeEventDate').innerText = currentEvent.eventDate || 'No Date';
+    }
+
+    function refreshFriendsDropdown() {
+      const select = document.getElementById('userFriendSelect');
+      const currentVal = select.value;
+      select.innerHTML = '<option value="">-- Choose Friend --</option>';
+      friendsList.forEach(fr => {
+        const opt = document.createElement('option');
+        opt.value = fr.friendId;
+        opt.innerText = fr.friendName;
+        select.appendChild(opt);
+      });
+      if (currentVal && friendsList.some(f => f.friendId === currentVal)) {
+        select.value = currentVal;
+      }
+    }
+
+    // SPA VIEW SWITCHER
+    function navigateView(viewName) {
+      ['user', 'paider', 'admin'].forEach(v => {
+        document.getElementById(`view${capitalize(v)}`).classList.add('hidden');
+        const navBtn = document.getElementById(`nav${capitalize(v)}Btn`);
+        navBtn.classList.remove('text-indigo-600', 'font-semibold');
+        navBtn.classList.add('text-slate-400', 'font-medium');
+      });
+
+      document.getElementById(`view${capitalize(viewName)}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav${capitalize(viewName)}Btn`);
+      activeBtn.classList.remove('text-slate-400', 'font-medium');
+      activeBtn.classList.add('text-indigo-600', 'font-semibold');
+
+      if (viewName === 'user') renderUserView();
+      if (viewName === 'paider') renderPaiderView();
+      if (viewName === 'admin') renderAdminView();
+      safeCreateIcons();
+    }
+
+    function capitalize(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    // ==============================================================
+    // 1. ADMIN SCREEN IMPLEMENTATION (DIRECT ACCESS)
+    // ==============================================================
+    function renderAdminView() {
+      try {
+        const t = (typeof i18n !== 'undefined' && i18n[currentLang]) ? i18n[currentLang] : (i18n ? i18n.en : {});
+        const badge = document.getElementById('adminFriendCountBadge');
+        if (badge) badge.innerText = `${friendsList.length} ${t.friendsCount || 'Friends'}`;
+
+        // Render Friends Chips
+        const frContainer = document.getElementById('adminFriendsList');
+        if (frContainer) {
+          if (friendsList.length === 0) {
+            frContainer.innerHTML = '<span class="text-xs text-slate-400 italic">No attendees added yet. Add some above!</span>';
+          } else {
+            frContainer.innerHTML = friendsList.map(f => `
+              <div class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+                <span>${escapeHtml(f.friendName)}</span>
+                <button onclick="handleRemoveFriend('${f.friendId}')" class="text-slate-400 hover:text-rose-600">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Render All Events
+        const evContainer = document.getElementById('adminEventsList');
+        if (evContainer) {
+          evContainer.innerHTML = eventsList.map(ev => `
+            <div class="bg-white p-3 rounded-xl border ${ev.eventId === currentEventId ? 'border-indigo-500 bg-indigo-50/20' : 'border-slate-200'} flex items-center justify-between shadow-sm">
+              <div>
+                <h4 class="font-bold text-xs text-slate-800">${escapeHtml(ev.eventName)}</h4>
+                <p class="text-[11px] text-slate-500">${ev.eventDate || 'No Date'}</p>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="selectEvent('${ev.eventId}')" class="text-xs px-2.5 py-1 rounded-lg ${ev.eventId === currentEventId ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-700'} font-medium">
+                  ${ev.eventId === currentEventId ? 'Active' : 'Select'}
+                </button>
+                <button onclick="handleDeleteEvent('${ev.eventId}')" class="text-slate-400 hover:text-rose-600 p-1">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.safeCreateIcons();
+        }
+      } catch (err) {
+        console.error("renderAdminView error:", err);
+      }
+    }
+
+    function handleCreateEvent() {
+      const name = document.getElementById('newEventName').value.trim();
+      const date = document.getElementById('newEventDate').value;
+      if (!name) return showToast('Please enter an event name', 'error');
+
+      if (isGAS) {
+        showToast('Creating event in Google Sheets...', 'info');
+        google.script.run
+          .withSuccessHandler((newEvent) => {
+            eventsList.unshift(newEvent);
+            selectEvent(newEvent.eventId);
+            document.getElementById('newEventName').value = '';
+            document.getElementById('newEventDate').value = '';
+            showToast('Event created successfully', 'success');
+          })
+          .withFailureHandler((err) => showToast(err.message, 'error'))
+          .createEvent(name, date);
+      } else {
+        const newEvent = { eventId: 'EVT_' + Date.now(), eventName: name, eventDate: date };
+        eventsList.unshift(newEvent);
+        selectEvent(newEvent.eventId);
+        document.getElementById('newEventName').value = '';
+        document.getElementById('newEventDate').value = '';
+        showToast('Event created (Local)', 'success');
+      }
+    }
+
+    function handleDeleteEvent(eventId) {
+      if (!confirm('Are you sure you want to delete this event and all associated sessions/expenses?')) return;
+
+      if (isGAS) {
+        showToast('Deleting from Google Sheets...', 'info');
+        google.script.run
+          .withSuccessHandler(() => {
+            eventsList = eventsList.filter(e => e.eventId !== eventId);
+            if (currentEventId === eventId) {
+              if (eventsList.length > 0) selectEvent(eventsList[0].eventId);
+              else {
+                currentEvent = null;
+                currentEventId = null;
+                friendsList = [];
+                activitiesList = [];
+              }
+            }
+            renderAdminView();
+            showToast('Event deleted', 'success');
+          })
+          .withFailureHandler((err) => showToast(err.message, 'error'))
+          .deleteEvent(eventId);
+      } else {
+        eventsList = eventsList.filter(e => e.eventId !== eventId);
+        if (currentEventId === eventId) {
+          if (eventsList.length > 0) selectEvent(eventsList[0].eventId);
+          else { currentEvent = null; currentEventId = null; friendsList = []; activitiesList = []; }
+        }
+        renderAdminView();
+        showToast('Event deleted', 'success');
+      }
+    }
+
+    function handleAddFriend() {
+      const name = document.getElementById('newFriendName').value.trim();
+      if (!name) return showToast('Please enter a friend name', 'error');
+      if (!currentEventId) return showToast('Please select an event first', 'error');
+
+      if (isGAS) {
+        showToast('Adding friend to Sheets...', 'info');
+        google.script.run
+          .withSuccessHandler((fr) => {
+            friendsList.push(fr);
+            document.getElementById('newFriendName').value = '';
+            refreshFriendsDropdown();
+            renderAdminView();
+            showToast('Friend added', 'success');
+          })
+          .withFailureHandler((err) => showToast(err.message, 'error'))
+          .addFriend(currentEventId, name);
+      } else {
+        const fr = { friendId: 'FRD_' + Date.now(), eventId: currentEventId, friendName: name };
+        friendsList.push(fr);
+        document.getElementById('newFriendName').value = '';
+        refreshFriendsDropdown();
+        renderAdminView();
+        showToast('Friend added (Local)', 'success');
+      }
+    }
+
+    function handleRemoveFriend(friendId) {
+      if (!confirm('Remove this friend?')) return;
+      if (isGAS) {
+        google.script.run
+          .withSuccessHandler(() => {
+            friendsList = friendsList.filter(f => f.friendId !== friendId);
+            refreshFriendsDropdown();
+            renderAdminView();
+            showToast('Friend removed', 'success');
+          })
+          .withFailureHandler((err) => showToast(err.message, 'error'))
+          .removeFriend(friendId);
+      } else {
+        friendsList = friendsList.filter(f => f.friendId !== friendId);
+        refreshFriendsDropdown();
+        renderAdminView();
+        showToast('Friend removed', 'success');
+      }
+    }
+
+    // ==============================================================
+    // 2. PAIDER SCREEN (EXPENSE CREATOR)
+    // ==============================================================
+    function renderPaiderView() {
+      try {
+        const container = document.getElementById('activitiesList');
+        if (!container) return;
+
+        if (activitiesList.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 px-4 bg-white rounded-3xl border border-dashed border-slate-200 space-y-3">
+              <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center">
+                <i data-lucide="receipt" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-sm text-slate-800">No activities recorded yet</h3>
+              <p class="text-xs text-slate-500 max-w-xs mx-auto">Tap "+ Add Session" to create meals, drinks, or entertainment expenses.</p>
+            </div>
+          `;
+          if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.safeCreateIcons();
+          }
+          return;
+        }
+
+        container.innerHTML = activitiesList.map(act => {
+          const payer = friendsList.find(f => f.friendId === act.paidByFriendId);
+          const payerName = payer ? payer.friendName : 'Unknown';
+          const subtotal = (act.lineItems || []).reduce((sum, it) => sum + (Number(it.price) || 0), 0);
+          const taxMultiplier = 1 + (Number(act.sstPercent || 0) / 100) + (Number(act.serviceTaxPercent || 0) / 100);
+          const grandTotal = subtotal * taxMultiplier;
+
+          return `
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-bold text-sm text-slate-900">${escapeHtml(act.activityName)}</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">${currentLang === 'zh' ? '付钱的老板：' : 'Paid by '}<span class="font-semibold text-slate-800">${escapeHtml(payerName)}</span></p>
+                </div>
+                <div class="text-right">
+                  <span class="text-base font-extrabold text-slate-900">$${grandTotal.toFixed(2)}</span>
+                  <p class="text-[10px] text-slate-400">Tax ${(taxMultiplier * 100 - 100).toFixed(0)}% (${act.sstPercent || 0}% SST + ${act.serviceTaxPercent || 0}%)</p>
+                </div>
+              </div>
+
+              <!-- Mini items preview -->
+              <div class="bg-slate-50 rounded-xl p-2.5 space-y-1 text-xs">
+                ${(act.lineItems || []).slice(0, 3).map(it => `
+                  <div class="flex justify-between text-slate-600">
+                    <span class="truncate max-w-[180px]">${escapeHtml(it.itemName)}</span>
+                    <span class="font-medium">$${Number(it.price).toFixed(2)}</span>
+                  </div>
+                `).join('')}
+                ${(act.lineItems || []).length > 3 ? `<p class="text-[10px] text-slate-400 italic text-center pt-1">+ ${(act.lineItems || []).length - 3} more items</p>` : ''}
+              </div>
+
+              <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
+                ${act.receiptImageUrl ? `
+                  <button onclick="openReceiptLightbox('${escapeHtml(act.receiptImageUrl)}', '${escapeHtml(act.activityName)} - Receipt')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 flex items-center gap-1 px-2.5 py-1.5 rounded-xl transition">
+                    <i data-lucide="receipt" class="w-3.5 h-3.5 text-emerald-600"></i>
+                    <span>View Receipt</span>
+                  </button>
+                ` : ''}
+                <button onclick="handleDeleteActivity('${act.activityId}')" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg text-xs font-medium flex items-center gap-1">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  <span>Delete</span>
+                </button>
+                <button onclick="openActivityEditor('${act.activityId}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                  <span>Edit Session</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.safeCreateIcons();
+        }
+      } catch (err) {
+        console.error("renderPaiderView error:", err);
+      }
+    }
+
+    function openActivityEditor(activityId = null) {
+      if (friendsList.length === 0) {
+        showToast(currentLang === 'zh' ? '请先在「管理后台」添加聚会成员名单！' : 'Please add attendees under the Admin tab first!', 'error');
+        navigateView('admin');
+        return;
+      }
+
+      const t = i18n[currentLang] || i18n.en;
+      resetSaveButton();
+
+      // Populate Payer Select dropdown
+      const payerSelect = document.getElementById('selectActPayer');
+      payerSelect.innerHTML = friendsList.map(f => `
+        <option value="${f.friendId}">${escapeHtml(f.friendName)}</option>
+      `).join('');
+
+      const lblWhoPaid = document.getElementById('lblWhoPaid');
+      if (lblWhoPaid) lblWhoPaid.innerText = t.whoPaidLabel || 'Who Paid? *';
+
+      if (activityId) {
+        const act = activitiesList.find(a => a.activityId === activityId);
+        editingActivity = JSON.parse(JSON.stringify(act));
+        document.getElementById('actModalTitle').innerText = t.editSessionTitle || 'Edit Hangout Session';
+      } else {
+        editingActivity = {
+          activityId: null,
+          eventId: currentEventId,
+          activityName: '',
+          paidByFriendId: friendsList[0] ? friendsList[0].friendId : '',
+          sstPercent: 6,
+          serviceTaxPercent: 10,
+          lineItems: [
+            { itemId: 'ITM_' + Date.now(), itemName: '', price: 0, assignedFriends: 'ALL' }
+          ]
+        };
+        document.getElementById('actModalTitle').innerText = t.newSessionTitle || 'Add Hangout Session';
+      }
+
+      document.getElementById('inputActName').value = editingActivity.activityName;
+      document.getElementById('selectActPayer').value = editingActivity.paidByFriendId;
+      document.getElementById('inputActSst').value = editingActivity.sstPercent;
+      document.getElementById('inputActServiceTax').value = editingActivity.serviceTaxPercent;
+
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+      dismissRoastBanner();
+
+      document.getElementById('activityEditorModal').classList.remove('hidden');
+      safeCreateIcons();
+    }
+
+    function closeActivityEditor() {
+      document.getElementById('activityEditorModal').classList.add('hidden');
+    }
+
+    // LINE ITEMS EDITOR & GRANULAR SPLIT MODES
+    function renderLineItemsEditor() {
+      const container = document.getElementById('lineItemsContainer');
+      container.innerHTML = editingActivity.lineItems.map((item, idx) => {
+        // Determine split option
+        let splitMode = 'ALL';
+        let specificFriend = '';
+        if (item.assignedFriends === 'ALL') {
+          splitMode = 'ALL';
+        } else if (!item.assignedFriends.includes(',')) {
+          splitMode = 'SPECIFIC';
+          specificFriend = item.assignedFriends;
+        } else {
+          splitMode = 'CUSTOM';
+        }
+
+        return `
+          <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/90 space-y-2.5">
+            <!-- Row 1: Name, Price, Delete -->
+            <div class="flex items-center gap-2">
+              <input type="text" value="${escapeHtml(item.itemName)}" oninput="updateItemField(${idx}, 'itemName', this.value)" placeholder="Item name (e.g. Burger)" class="flex-1 bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500" />
+              <div class="relative w-24">
+                <span class="absolute left-2.5 top-1.5 text-xs font-bold text-slate-400">$</span>
+                <input type="number" step="0.01" value="${item.price || ''}" oninput="updateItemField(${idx}, 'price', this.value)" placeholder="0.00" class="w-full bg-white border border-slate-300 rounded-xl pl-6 pr-2 py-1.5 text-xs font-bold text-slate-900 text-right focus:ring-2 focus:ring-indigo-500" />
+              </div>
+              <button onclick="removeLineItemRow(${idx})" class="w-7 h-7 rounded-lg text-slate-400 hover:text-rose-600 flex items-center justify-center">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Row 2: Granular Split Mode Selector (CRITICAL REQUIREMENT) -->
+            <div class="space-y-1.5 pt-1 border-t border-slate-200/60">
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Item Split Assignment:</label>
+              <div class="grid grid-cols-3 gap-1 bg-slate-200/80 p-1 rounded-xl">
+                <button type="button" onclick="setItemSplitMode(${idx}, 'ALL')" class="py-1 text-[11px] font-semibold rounded-lg transition ${splitMode === 'ALL' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}">
+                  Everyone
+                </button>
+                <button type="button" onclick="setItemSplitMode(${idx}, 'SPECIFIC')" class="py-1 text-[11px] font-semibold rounded-lg transition ${splitMode === 'SPECIFIC' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}">
+                  1 Friend
+                </button>
+                <button type="button" onclick="setItemSplitMode(${idx}, 'CUSTOM')" class="py-1 text-[11px] font-semibold rounded-lg transition ${splitMode === 'CUSTOM' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}">
+                  Custom
+                </button>
+              </div>
+
+              <!-- Option 2 Sub-Dropdown: Assign to Specific Friend -->
+              ${splitMode === 'SPECIFIC' ? `
+                <div class="pt-1.5">
+                  <select onchange="updateItemField(${idx}, 'assignedFriends', this.value)" class="w-full bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-800">
+                    ${friendsList.map(f => `
+                      <option value="${f.friendId}" ${f.friendId === specificFriend ? 'selected' : ''}>
+                        ${escapeHtml(f.friendName)}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+
+              <!-- Option 3 Sub-Checkboxes: Custom Multi-Select -->
+              ${splitMode === 'CUSTOM' ? `
+                <div class="pt-1.5 grid grid-cols-2 gap-1.5 bg-white p-2 rounded-xl border border-slate-200">
+                  ${friendsList.map(f => {
+                    const assignedArray = (item.assignedFriends || '').split(',');
+                    const isChecked = assignedArray.includes(f.friendId);
+                    return `
+                      <label class="flex items-center gap-1.5 text-[11px] font-medium text-slate-700 cursor-pointer">
+                        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleFriendForCustomSplit(${idx}, '${f.friendId}')" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5" />
+                        <span class="truncate">${escapeHtml(f.friendName)}</span>
+                      </label>
+                    `;
+                  }).join('')}
+                </div>
+              ` : ''}
+
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      safeCreateIcons();
+    }
+
+    function addLineItemRow(itemName = '', price = 0) {
+      editingActivity.lineItems.push({
+        itemId: 'ITM_' + Date.now() + Math.random().toString(36).substring(2, 4),
+        itemName: itemName,
+        price: price,
+        assignedFriends: 'ALL'
+      });
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+    }
+
+    function removeLineItemRow(index) {
+      editingActivity.lineItems.splice(index, 1);
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+    }
+
+    function updateItemField(index, field, value) {
+      if (field === 'price') {
+        editingActivity.lineItems[index][field] = parseFloat(value) || 0;
+      } else {
+        editingActivity.lineItems[index][field] = value;
+      }
+      updateCalculatedTotalsPreview();
+    }
+
+    function setItemSplitMode(index, mode) {
+      if (mode === 'ALL') {
+        editingActivity.lineItems[index].assignedFriends = 'ALL';
+      } else if (mode === 'SPECIFIC') {
+        // default to first friend if not yet specified
+        editingActivity.lineItems[index].assignedFriends = friendsList[0] ? friendsList[0].friendId : 'ALL';
+      } else if (mode === 'CUSTOM') {
+        // default to all friends ticked
+        editingActivity.lineItems[index].assignedFriends = friendsList.map(f => f.friendId).join(',');
+      }
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+    }
+
+    function toggleFriendForCustomSplit(itemIndex, friendId) {
+      let current = (editingActivity.lineItems[itemIndex].assignedFriends || '').split(',').filter(Boolean);
+      if (current.includes('ALL')) {
+        current = friendsList.map(f => f.friendId);
+      }
+      if (current.includes(friendId)) {
+        current = current.filter(id => id !== friendId);
+      } else {
+        current.push(friendId);
+      }
+      // If none selected, fallback to everyone
+      if (current.length === 0) current = [friendId];
+      editingActivity.lineItems[itemIndex].assignedFriends = current.join(',');
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+    }
+
+    function updateCalculatedTotalsPreview() {
+      const subtotal = editingActivity.lineItems.reduce((acc, it) => acc + (Number(it.price) || 0), 0);
+      const sst = Number(document.getElementById('inputActSst').value) || 0;
+      const serviceTax = Number(document.getElementById('inputActServiceTax').value) || 0;
+      const taxMult = 1 + (sst / 100) + (serviceTax / 100);
+      const grand = subtotal * taxMult;
+
+      document.getElementById('previewSubtotal').innerText = `$${subtotal.toFixed(2)}`;
+      document.getElementById('previewTaxMult').innerText = `${taxMult.toFixed(2)}x (+${((taxMult - 1) * 100).toFixed(0)}%)`;
+      document.getElementById('previewGrandTotal').innerText = `$${grand.toFixed(2)}`;
+    }
+
+    // CLIENT-SIDE IMAGE COMPRESSION (Prevents 503 timeouts from huge 12MB+ phone camera images)
+    function compressReceiptImage(file, maxDimension, quality, callback) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          let width = img.width;
+          let height = img.height;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          callback(compressedDataUrl);
+        };
+        img.onerror = function() {
+          callback(e.target.result);
+        };
+        img.src = e.target.result;
+      };
+      reader.onerror = function() {
+        callback(null);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    let lastScannedReceiptBase64 = null;
+
+    // CAMERA AI RECEIPT SCAN (Gemini Flash Vision with Multi-Model Fallback)
+    function handleReceiptScan(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const loadingEl = document.getElementById('ocrLoadingState');
+      const loadingTextEl = document.getElementById('ocrLoadingText');
+      loadingEl.classList.remove('hidden');
+      if (loadingTextEl) loadingTextEl.innerText = "Optimizing photo for Gemini Vision OCR...";
+
+      // Compress mobile photo to 1600px max dimension, 0.82 JPEG quality
+      // Reduces 10MB phone camera images to ~250KB for ultra-fast, reliable OCR
+      compressReceiptImage(file, 1600, 0.82, function(base64Image) {
+        if (!base64Image) {
+          loadingEl.classList.add('hidden');
+          showToast('Failed to read image file', 'error');
+          return;
+        }
+
+        // Cache base64 image on current activity for local preview & Drive upload
+        lastScannedReceiptBase64 = base64Image;
+        editingActivity.receiptImageUrl = base64Image;
+
+        if (loadingTextEl) loadingTextEl.innerText = "AI Vision is reading receipt items...";
+
+        if (isGAS) {
+          google.script.run
+            .withSuccessHandler((result) => {
+              loadingEl.classList.add('hidden');
+              processScannedItems(result);
+            })
+            .withFailureHandler((err) => {
+              loadingEl.classList.add('hidden');
+              const msg = err.message || String(err);
+              if (msg.includes('503') || msg.includes('high demand') || msg.includes('temporarily')) {
+                showToast('OCR API is busy. Retrying or please tap Scan again in a moment.', 'info');
+              } else {
+                showToast('Receipt scan failed: ' + msg, 'error');
+              }
+            })
+            .analyzeReceipt(base64Image);
+        } else {
+          // Local/Simulated preview: Call our server OCR endpoint
+          fetch('/api/gemini/receipt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageBase64: base64Image, mimeType: 'image/jpeg' })
+          })
+          .then(res => res.json())
+          .then(data => {
+            loadingEl.classList.add('hidden');
+            if (data.success) {
+              processScannedItems(data);
+            } else {
+              showToast(data.error || 'Failed to scan receipt', 'error');
+            }
+          })
+          .catch(err => {
+            loadingEl.classList.add('hidden');
+            showToast('Scan error: ' + (err.message || 'Network issue'), 'error');
+          });
+        }
+      });
+
+      // Clear input so selecting same file again works
+      event.target.value = '';
+    }
+
+    function dismissRoastBanner() {
+      const banner = document.getElementById('ocrRoastBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    function processScannedItems(result) {
+      if (!result) {
+        showToast(currentLang === 'zh' ? '未能识别小票内容' : 'No items recognized on receipt', 'info');
+        return;
+      }
+
+      // Handle Smart Receipt Guard Rejection (e.g. face, tree, dog, cat, food plate without bill)
+      if (result.isReceipt === false) {
+        const detected = result.detectedSubject || (currentLang === 'zh' ? '非小票内容' : 'non-receipt object');
+        const defaultMsg = currentLang === 'zh'
+          ? `🤨 喂！你上传的是「${detected}」吧？！这玩意儿可不能用来 AA 结账！猫猫/自拍可不会替大家掏钱，快去拍真正的账单小票！`
+          : `🤨 Bruh, what the hell are you uploading?! This is literally "${detected}", not a receipt! Your ${detected} ain't splitting the bill with us. Snap the real bill!`;
+        const msg = result.rejectMessage ? result.rejectMessage : defaultMsg;
+
+        // Show prominent in-modal roast banner directly in front of user's eyes!
+        const roastBanner = document.getElementById('ocrRoastBanner');
+        const roastMsgEl = document.getElementById('ocrRoastMessage');
+        if (roastBanner && roastMsgEl) {
+          roastMsgEl.innerText = msg;
+          roastBanner.classList.remove('hidden');
+          if (typeof lucide !== 'undefined') safeCreateIcons();
+        }
+
+        showToast(msg, 'warning', 8500);
+        return;
+      }
+
+      dismissRoastBanner();
+
+      const items = Array.isArray(result) ? result : (result.items || []);
+
+      if (items.length === 0) {
+        const hint = result.detectedSubject ? ` (${result.detectedSubject})` : '';
+        showToast((currentLang === 'zh' ? '未在照片中发现消费明细或价格' : 'No items or prices found on receipt') + hint, 'info');
+        return;
+      }
+
+      items.forEach(it => {
+        editingActivity.lineItems.push({
+          itemId: 'ITM_' + Date.now() + Math.random().toString(36).substring(2, 4),
+          itemName: it.item,
+          price: Number(it.price) || 0,
+          assignedFriends: 'ALL'
+        });
+      });
+      renderLineItemsEditor();
+      updateCalculatedTotalsPreview();
+      showToast(currentLang === 'zh' ? `成功提取 ${items.length} 个消费项目！` : `Scanned ${items.length} items successfully!`, 'success');
+    }
+
+    let isSavingActivity = false;
+
+    function saveCurrentActivity() {
+      if (isSavingActivity) return;
+
+      const name = document.getElementById('inputActName').value.trim();
+      if (!name) return showToast(currentLang === 'zh' ? '请输入聚餐或消费地点名称！' : 'Please enter a session name', 'error');
+
+      const payerId = document.getElementById('selectActPayer').value;
+      if (!payerId) return showToast(currentLang === 'zh' ? '请选择本笔消费付钱的老板！' : 'Please select who paid', 'error');
+
+      if ((editingActivity.lineItems || []).length === 0) {
+        return showToast(currentLang === 'zh' ? '请至少添加一项餐品消费明细！' : 'Please add at least one line item', 'error');
+      }
+
+      const sst = Number(document.getElementById('inputActSst').value) || 0;
+      const serviceTax = Number(document.getElementById('inputActServiceTax').value) || 0;
+
+      editingActivity.activityName = name;
+      editingActivity.paidByFriendId = payerId;
+      editingActivity.sstPercent = sst;
+      editingActivity.serviceTaxPercent = serviceTax;
+      editingActivity.eventId = currentEventId;
+
+      const base64ToUpload = lastScannedReceiptBase64;
+      lastScannedReceiptBase64 = null;
+
+      // Lock button & show buffer modal
+      isSavingActivity = true;
+      const btnSave = document.getElementById('btnSaveActivity');
+      if (btnSave) {
+        btnSave.disabled = true;
+        btnSave.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin inline-block mr-1"></i> ${currentLang === 'zh' ? '正在保存...' : 'Saving...'}`;
+        safeCreateIcons();
+      }
+
+      const hasPhoto = !!base64ToUpload || !!editingActivity.receiptImageUrl;
+      if (hasPhoto) {
+        showSavingBufferModal(1);
+      }
+
+      if (isGAS) {
+        if (hasPhoto) {
+          setTimeout(() => showSavingBufferModal(2), 1200);
+        }
+        google.script.run
+          .withSuccessHandler((res) => {
+            if (hasPhoto) {
+              showSavingBufferModal(3);
+              setTimeout(() => {
+                finishSavingActivity(res);
+              }, 1200);
+            } else {
+              finishSavingActivity(res);
+            }
+          })
+          .withFailureHandler((err) => {
+            isSavingActivity = false;
+            hideSavingBufferModal();
+            resetSaveButton();
+            showToast('Save failed: ' + err.message, 'error');
+          })
+          .saveActivityWithItems(editingActivity, editingActivity.lineItems, base64ToUpload);
+      } else {
+        if (hasPhoto) {
+          setTimeout(() => {
+            showSavingBufferModal(2);
+            setTimeout(() => {
+              showSavingBufferModal(3);
+              setTimeout(() => {
+                const fakeId = editingActivity.activityId || ('ACT_' + Date.now());
+                finishSavingActivity({ activityId: fakeId, receiptImageUrl: editingActivity.receiptImageUrl });
+              }, 1000);
+            }, 1200);
+          }, 1000);
+        } else {
+          const fakeId = editingActivity.activityId || ('ACT_' + Date.now());
+          finishSavingActivity({ activityId: fakeId });
+        }
+      }
+    }
+
+    function finishSavingActivity(res) {
+      editingActivity.activityId = res.activityId;
+      if (res.receiptImageUrl) {
+        editingActivity.receiptImageUrl = res.receiptImageUrl;
+      }
+      const existingIdx = activitiesList.findIndex(a => a.activityId === res.activityId);
+      if (existingIdx !== -1) {
+        activitiesList[existingIdx] = editingActivity;
+      } else {
+        activitiesList.push(editingActivity);
+      }
+      isSavingActivity = false;
+      hideSavingBufferModal();
+      resetSaveButton();
+      closeActivityEditor();
+      renderPaiderView();
+      renderUserView();
+      showToast(currentLang === 'zh' ? '消费记录已同步至 Google 表格！' : 'Session saved to Google Sheets!', 'success');
+    }
+
+    function resetSaveButton() {
+      isSavingActivity = false;
+      const btnSave = document.getElementById('btnSaveActivity');
+      if (btnSave) {
+        btnSave.disabled = false;
+        btnSave.innerText = currentLang === 'zh' ? '保存至表格' : 'Save to Sheets';
+      }
+    }
+
+    function showSavingBufferModal(step) {
+      const modal = document.getElementById('savingBufferModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      const isZh = currentLang === 'zh';
+      const step1Icon = document.getElementById('stepSave1Icon');
+      const step2Icon = document.getElementById('stepSave2Icon');
+      const step3Icon = document.getElementById('stepSave3Icon');
+      const step2Title = document.getElementById('stepSave2Title');
+      const step2Sub = document.getElementById('stepSave2Subtitle');
+      const step3Title = document.getElementById('stepSave3Title');
+      const step3Sub = document.getElementById('stepSave3Subtitle');
+
+      if (step === 1) {
+        step1Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700";
+        step1Icon.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i>`;
+        step2Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-indigo-600 text-white animate-pulse";
+        step2Icon.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>`;
+        step3Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-slate-200 text-slate-500 font-bold text-[11px]";
+        step3Icon.innerHTML = `3`;
+      } else if (step === 2) {
+        step1Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700";
+        step1Icon.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i>`;
+        step2Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-indigo-600 text-white animate-pulse";
+        step2Icon.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>`;
+        step2Title.className = "font-semibold text-slate-900";
+        step2Sub.innerText = isZh ? "正在与 Google Drive 通信传输中..." : "Transferring data to Drive storage...";
+      } else if (step === 3) {
+        step1Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700";
+        step1Icon.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i>`;
+        step2Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700";
+        step2Icon.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i>`;
+        step2Sub.innerText = isZh ? "云端存储链接已生成" : "Drive cloud link generated";
+        step3Icon.className = "w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-indigo-600 text-white animate-pulse";
+        step3Icon.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>`;
+        step3Title.className = "font-semibold text-slate-900";
+        step3Sub.innerText = isZh ? "正在更新结算矩阵并写入行..." : "Updating net debt matrix and rows...";
+      }
+      safeCreateIcons();
+    }
+
+    function hideSavingBufferModal() {
+      const modal = document.getElementById('savingBufferModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleDeleteActivity(activityId) {
+      if (!confirm('Are you sure you want to delete this activity?')) return;
+      if (isGAS) {
+        showToast('Deleting session...', 'info');
+        google.script.run
+          .withSuccessHandler(() => {
+            activitiesList = activitiesList.filter(a => a.activityId !== activityId);
+            renderPaiderView();
+            renderUserView();
+            showToast('Activity deleted', 'success');
+          })
+          .withFailureHandler((err) => showToast(err.message, 'error'))
+          .deleteActivity(activityId);
+      } else {
+        activitiesList = activitiesList.filter(a => a.activityId !== activityId);
+        renderPaiderView();
+        renderUserView();
+        showToast('Activity deleted (Local)', 'success');
+      }
+    }
+
+    // ==============================================================
+    // 3. NORMAL USER SCREEN (SUMMARY & NET SETTLEMENT CALCULATION)
+    // ==============================================================
+    function renderUserView() {
+      try {
+        const selectEl = document.getElementById('userFriendSelect');
+        const selectedId = selectEl ? selectEl.value : '';
+        const emptyPrompt = document.getElementById('userEmptyPrompt');
+        const detailContent = document.getElementById('userDetailContent');
+
+        // Check if selectedId is in current friendsList
+        const currentSelectedFriend = friendsList.find(f => f.friendId === selectedId);
+        if (!selectedId || !currentSelectedFriend) {
+          if (emptyPrompt) emptyPrompt.classList.remove('hidden');
+          if (detailContent) detailContent.classList.add('hidden');
+          if (selectedId && !currentSelectedFriend && selectEl) {
+            selectEl.value = '';
+          }
+          return;
+        }
+
+        if (emptyPrompt) emptyPrompt.classList.add('hidden');
+        if (detailContent) detailContent.classList.remove('hidden');
+
+        // -----------------------------------------------------------
+        // MATHEMATICAL ENGINE IMPLEMENTATION (EXACTLY AS SPECIFIED)
+        // -----------------------------------------------------------
+        let myTotalConsumption = 0;
+        let myTotalPaid = 0;
+        let myAssignedItemsList = [];
+
+        // Pairwise Debt Tracker: debts[fromFriendId][toFriendId] = amount
+        const debtGraph = {};
+        friendsList.forEach(f1 => {
+          debtGraph[f1.friendId] = {};
+          friendsList.forEach(f2 => {
+            debtGraph[f1.friendId][f2.friendId] = 0;
+          });
+        });
+
+        // Calculate across all activities
+        activitiesList.forEach(act => {
+          const payerId = act.paidByFriendId;
+          const taxMultiplier = 1 + (Number(act.sstPercent || 0) / 100) + (Number(act.serviceTaxPercent || 0) / 100);
+
+          (act.lineItems || []).forEach(item => {
+            const itemPrice = Number(item.price) || 0;
+            let assignedFriends = [];
+
+            if (item.assignedFriends === 'ALL') {
+              assignedFriends = friendsList.map(f => f.friendId);
+            } else {
+              assignedFriends = (item.assignedFriends || '').split(',').filter(Boolean);
+            }
+
+            if (assignedFriends.length === 0) {
+              assignedFriends = friendsList.map(f => f.friendId);
+            }
+
+            const splitWays = assignedFriends.length > 0 ? assignedFriends.length : 1;
+            const friendShareRaw = itemPrice / splitWays;
+            const friendShareWithTax = friendShareRaw * taxMultiplier;
+
+            // If current selected user is in assigned friends, track it
+            if (assignedFriends.includes(selectedId)) {
+              myTotalConsumption += friendShareWithTax;
+              myAssignedItemsList.push({
+                activityName: act.activityName,
+                itemName: item.itemName,
+                rawPortion: friendShareRaw,
+                calculatedTaxShare: friendShareWithTax - friendShareRaw,
+                totalWithTax: friendShareWithTax,
+                splitCount: assignedFriends.length,
+                payerName: (friendsList.find(f => f.friendId === payerId) || {}).friendName || 'Someone'
+              });
+            }
+
+            // Accumulate to pairwise debt graph
+            assignedFriends.forEach(consumerId => {
+              if (consumerId !== payerId && debtGraph[consumerId] && debtGraph[consumerId][payerId] !== undefined) {
+                debtGraph[consumerId][payerId] += friendShareWithTax;
+              }
+            });
+          });
+        });
+
+        // Render KPI
+        const statConsumptionEl = document.getElementById('statMyConsumption');
+        if (statConsumptionEl) {
+          statConsumptionEl.innerText = `$${myTotalConsumption.toFixed(2)}`;
+        }
+
+        // Calculate net status for selected user:
+        // What others owe me - what I owe others
+        let othersOweMe = 0;
+        let iOweOthers = 0;
+
+        friendsList.forEach(other => {
+          if (other.friendId !== selectedId) {
+            const owesMe = (debtGraph[other.friendId] && debtGraph[other.friendId][selectedId]) || 0;
+            const iOwe = (debtGraph[selectedId] && debtGraph[selectedId][other.friendId]) || 0;
+            othersOweMe += owesMe;
+            iOweOthers += iOwe;
+          }
+        });
+
+        const netBalance = othersOweMe - iOweOthers;
+        const netStatusEl = document.getElementById('statMyNetStatus');
+        const netSubtitleEl = document.getElementById('statMyNetSubtitle');
+
+        if (netStatusEl && netSubtitleEl) {
+          if (netBalance > 0.005) {
+            netStatusEl.className = 'text-xl font-extrabold text-emerald-600 mt-1';
+            netStatusEl.innerText = `+$${netBalance.toFixed(2)}`;
+            netSubtitleEl.innerText = `You should receive $${netBalance.toFixed(2)}`;
+          } else if (netBalance < -0.005) {
+            netStatusEl.className = 'text-xl font-extrabold text-rose-600 mt-1';
+            netStatusEl.innerText = `-$${Math.abs(netBalance).toFixed(2)}`;
+            netSubtitleEl.innerText = `You need to pay $${Math.abs(netBalance).toFixed(2)}`;
+          } else {
+            netStatusEl.className = 'text-xl font-extrabold text-slate-700 mt-1';
+            netStatusEl.innerText = `$0.00`;
+            netSubtitleEl.innerText = 'Settled up';
+          }
+        }
+
+        // Render Individual Itemized Consumption
+        const badgeEl = document.getElementById('myItemsCountBadge');
+        if (badgeEl) badgeEl.innerText = `${myAssignedItemsList.length} items`;
+        
+        const itemsContainer = document.getElementById('myItemsList');
+        if (itemsContainer) {
+          if (myAssignedItemsList.length === 0) {
+            itemsContainer.innerHTML = '<p class="text-xs text-slate-400 italic py-2">No items assigned to this friend yet.</p>';
+          } else {
+            itemsContainer.innerHTML = myAssignedItemsList.map(it => `
+              <div class="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-xs text-slate-900">${escapeHtml(it.itemName)}</h4>
+                  <p class="text-[11px] text-slate-500">${escapeHtml(it.activityName)} • <span class="text-slate-400">${currentLang === 'zh' ? `共 ${it.splitCount} 人平摊` : `Split ${it.splitCount} ways`}</span></p>
+                  <p class="text-[10px] text-slate-400">${currentLang === 'zh' ? `净价: $${it.rawPortion.toFixed(2)} + 税费: $${it.calculatedTaxShare.toFixed(2)}` : `Raw: $${it.rawPortion.toFixed(2)} + Tax: $${it.calculatedTaxShare.toFixed(2)}`}</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-extrabold text-slate-900">$${it.totalWithTax.toFixed(2)}</span>
+                  <p class="text-[10px] text-slate-400">${currentLang === 'zh' ? '付钱的老板：' : 'Paid by '}${escapeHtml(it.payerName)}</p>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Render Net Balance Matrix (Who Owes Whom)
+        const matrixContainer = document.getElementById('debtMatrixList');
+        if (matrixContainer) {
+          const settlementStatements = [];
+          const resolvedPairs = new Set();
+
+          friendsList.forEach(fA => {
+            friendsList.forEach(fB => {
+              if (fA.friendId !== fB.friendId) {
+                const pairKey = [fA.friendId, fB.friendId].sort().join('__');
+                if (!resolvedPairs.has(pairKey)) {
+                  resolvedPairs.add(pairKey);
+                  const aOwesB = (debtGraph[fA.friendId] && debtGraph[fA.friendId][fB.friendId]) || 0;
+                  const bOwesA = (debtGraph[fB.friendId] && debtGraph[fB.friendId][fA.friendId]) || 0;
+                  const netDiff = bOwesA - aOwesB;
+
+                  if (netDiff > 0.01) {
+                    settlementStatements.push({
+                      debtor: fB.friendName,
+                      debtorId: fB.friendId,
+                      creditor: fA.friendName,
+                      creditorId: fA.friendId,
+                      amount: netDiff
+                    });
+                  } else if (netDiff < -0.01) {
+                    settlementStatements.push({
+                      debtor: fA.friendName,
+                      debtorId: fA.friendId,
+                      creditor: fB.friendName,
+                      creditorId: fB.friendId,
+                      amount: Math.abs(netDiff)
+                    });
+                  }
+                }
+              }
+            });
+          });
+
+          if (settlementStatements.length === 0) {
+            matrixContainer.innerHTML = `<p class="text-xs text-slate-400 italic py-2">${currentLang === 'zh' ? '已全部结清！本活动无未结算欠款。' : 'All settled up! No outstanding debts.'}</p>`;
+          } else {
+            matrixContainer.innerHTML = settlementStatements.map(stmt => {
+              const isRelatedToMe = stmt.debtorId === selectedId || stmt.creditorId === selectedId;
+              const owesWord = currentLang === 'zh' ? '需转账给' : 'owes';
+              const statusDesc = isRelatedToMe
+                ? (stmt.debtorId === selectedId
+                    ? (currentLang === 'zh' ? '你需要支付此笔款项' : 'You need to pay this')
+                    : (currentLang === 'zh' ? '应收款项（他人欠你）' : 'You are owed this'))
+                : (currentLang === 'zh' ? '聚会结算' : 'Hangout balance');
+
+              return `
+                <div class="p-3 rounded-2xl border ${isRelatedToMe ? 'bg-indigo-50/40 border-indigo-200' : 'bg-white border-slate-200'} shadow-sm flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl ${stmt.debtorId === selectedId ? 'bg-rose-100 text-rose-600' : stmt.creditorId === selectedId ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-600'} flex items-center justify-center font-bold text-xs">
+                      <i data-lucide="${stmt.debtorId === selectedId ? 'arrow-up-right' : 'arrow-down-left'}" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs font-bold text-slate-800">
+                        <span class="${stmt.debtorId === selectedId ? 'text-rose-600 underline font-extrabold' : ''}">${escapeHtml(stmt.debtor)}</span> ${owesWord} <span class="${stmt.creditorId === selectedId ? 'text-emerald-600 underline font-extrabold' : ''}">${escapeHtml(stmt.creditor)}</span>
+                      </p>
+                      <p class="text-[10px] text-slate-400">${statusDesc}</p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-extrabold text-slate-900">$${stmt.amount.toFixed(2)}</span>
+                </div>
+              `;
+            }).join('');
+          }
+        }
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.safeCreateIcons();
+        }
+      } catch (err) {
+        console.error("renderUserView error:", err);
+      }
+    }
+
+    // EVENT SELECTION MODAL
+    function switchEventModal() {
+      const container = document.getElementById('eventSelectList');
+      container.innerHTML = eventsList.map(ev => `
+        <button onclick="selectEvent('${ev.eventId}')" class="w-full text-left p-3 rounded-2xl border ${ev.eventId === currentEventId ? 'border-indigo-600 bg-indigo-50/50' : 'border-slate-200 hover:bg-slate-50'} transition">
+          <h4 class="font-bold text-xs text-slate-800">${escapeHtml(ev.eventName)}</h4>
+          <p class="text-[11px] text-slate-500">${ev.eventDate || 'No Date'}</p>
+        </button>
+      `).join('');
+      document.getElementById('eventSelectModal').classList.remove('hidden');
+      safeCreateIcons();
+    }
+
+    function closeEventModal() {
+      document.getElementById('eventSelectModal').classList.add('hidden');
+    }
+
+    // TOAST NOTIFICATIONS
+    function showToast(msg, type = 'info', duration = 3200) {
+      const toast = document.getElementById('toastContainer');
+      const text = document.getElementById('toastText');
+      const icon = document.getElementById('toastIcon');
+      const toastBox = document.getElementById('toastMessage');
+      text.innerText = msg;
+      
+      if (type === 'error') {
+        icon.setAttribute('data-lucide', 'alert-circle');
+        icon.className = 'w-4 h-4 text-rose-400 shrink-0';
+        if (toastBox) toastBox.className = 'px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-medium flex items-center gap-2.5 bg-rose-950 text-rose-100 border border-rose-600/80';
+      } else if (type === 'warning' || type === 'roast') {
+        icon.setAttribute('data-lucide', 'alert-triangle');
+        icon.className = 'w-4 h-4 text-amber-400 shrink-0';
+        if (toastBox) toastBox.className = 'px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2.5 bg-amber-950 text-amber-100 border border-amber-500/80';
+      } else if (type === 'success') {
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        icon.className = 'w-4 h-4 text-emerald-400 shrink-0';
+        if (toastBox) toastBox.className = 'px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-medium flex items-center gap-2.5 bg-emerald-950 text-emerald-100 border border-emerald-600/80';
+      } else {
+        icon.setAttribute('data-lucide', 'info');
+        icon.className = 'w-4 h-4 text-indigo-400 shrink-0';
+        if (toastBox) toastBox.className = 'px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-medium flex items-center gap-2.5 bg-slate-900 text-white border border-slate-700';
+      }
+      safeCreateIcons();
+
+      toast.classList.remove('opacity-0', '-translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (window._toastTimeout) clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, duration);
+    }
+
+    // Helper to sanitize HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    // ==============================================================
+    // 4. LANGUAGE (EN / 中文) & THEME (LIGHT / DARK) SYSTEM
+    // ==============================================================
+    let currentLang = localStorage.getItem('hangout_lang') || 'en';
+    let currentTheme = localStorage.getItem('hangout_theme') || 'light';
+
+    const i18n = {
+      en: {
+        appName: "Hangout Splitter",
+        selectEvent: "Event",
+        memberOverview: "Member Overview",
+        selectYourName: "Select Your Name:",
+        chooseFriend: "-- Choose Friend --",
+        emptyPromptTitle: "Select your name above",
+        emptyPromptDesc: "See your itemized food orders, tax breakdowns, and who you owe or who owes you.",
+        myTotalConsumption: "My Total Consumption",
+        netStatus: "Net Status",
+        includesTaxes: "Includes taxes & service",
+        overallBalance: "Overall balance",
+        myOrders: "My Itemized Orders",
+        whoOwesWhom: "Who Owes Whom (Settlement)",
+        sendSummaryTitle: "Send Expense Summary",
+        sendSummaryDesc: 'Share "who owes who" summary via WhatsApp with 1-click',
+        sendSummaryBtn: "Send Summary & Debts via WhatsApp",
+        expensesTab: "Expenses",
+        adminTab: "Admin",
+        myBillTab: "My Bill",
+        adminTitle: "Admin Management",
+        adminDesc: "Configure hangout dates, manage attendee rosters, and system preferences.",
+        adminDirectAccess: "Direct Access",
+        friendsCount: "Friends",
+        sysPreferences: "System Preferences",
+        langTitle: "Language",
+        langDesc: "English / 中文",
+        themeTitle: "Theme",
+        themeDesc: "Light / Dark",
+        createEventTitle: "Create New Hangout Event",
+        createEventBtn: "Create Event",
+        manageAttendees: "Manage Event Attendees",
+        addFriendBtn: "Add",
+        allEvents: "All Hangout Events",
+        cameraBtn: "Camera",
+        uploadBtn: "Upload",
+        itemBtn: "Item",
+        addSessionBtn: "+ Add Session",
+        paidByLabel: "Paid by",
+        whoPaidLabel: "Who Paid? *",
+        editSessionTitle: "Edit Hangout Session",
+        newSessionTitle: "Add Hangout Session",
+        saveBtn: "Save to Sheets",
+        savingBtn: "Saving...",
+        savingModalTitle: "Saving Session Record",
+        savingModalDesc: "Syncing data to Google Drive & Google Sheets",
+        waModalTitle: "WhatsApp Expense Summary",
+        waModalDesc: "Send formatted settlements directly to WhatsApp",
+        waPreview: "Message Preview",
+        waCopyBtn: "Copy Text",
+        waShareBtn: "Share via WhatsApp",
+        waCloseBtn: "Close"
+      },
+      zh: {
+        appName: "聚会分账神器",
+        selectEvent: "切换活动",
+        memberOverview: "成员个人明细",
+        selectYourName: "选择你的名字：",
+        chooseFriend: "-- 请选择朋友 --",
+        emptyPromptTitle: "请在上方选择你的名字",
+        emptyPromptDesc: "查看你的专属点餐明细、税费分摊，以及你欠谁钱或谁欠你钱。",
+        myTotalConsumption: "我的总消费",
+        netStatus: "最终收支结算",
+        includesTaxes: "含税费和服务费",
+        overallBalance: "结算净额",
+        myOrders: "我的点餐明细",
+        whoOwesWhom: "互相结账清单（谁欠谁）",
+        sendSummaryTitle: "发送费用总结",
+        sendSummaryDesc: "一键将「谁欠谁钱」总结分享至 WhatsApp 群聊",
+        sendSummaryBtn: "通过 WhatsApp 发送结账总结",
+        expensesTab: "消费记录",
+        adminTab: "管理后台",
+        myBillTab: "我的账单",
+        adminTitle: "系统管理后台",
+        adminDesc: "配置聚会活动、日期、管理同行好友名单及系统偏好设置。",
+        adminDirectAccess: "直接管理",
+        friendsCount: "位成员",
+        sysPreferences: "系统偏好设置",
+        langTitle: "显示语言",
+        langDesc: "English / 简体中文",
+        themeTitle: "界面主题",
+        themeDesc: "浅色模式 / 深色模式",
+        createEventTitle: "创建新聚会活动",
+        createEventBtn: "创建聚会",
+        manageAttendees: "管理聚会成员名单",
+        addFriendBtn: "添加成员",
+        allEvents: "所有聚会活动记录",
+        cameraBtn: "拍照扫描",
+        uploadBtn: "上传小票",
+        itemBtn: "添加项目",
+        addSessionBtn: "+ 添加消费",
+        paidByLabel: "付钱的老板",
+        whoPaidLabel: "付钱的老板 *",
+        editSessionTitle: "编辑聚会消费记录",
+        newSessionTitle: "新建聚会消费记录",
+        saveBtn: "保存至表格",
+        savingBtn: "正在保存...",
+        savingModalTitle: "正在保存消费记录",
+        savingModalDesc: "正在同步数据至 Google 云端硬盘与表格",
+        waModalTitle: "WhatsApp 费用总结",
+        waModalDesc: "将格式化好的分账与结账清单直接分享至 WhatsApp",
+        waPreview: "消息预览",
+        waCopyBtn: "复制文本",
+        waShareBtn: "一键分享至 WhatsApp",
+        waCloseBtn: "关闭"
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('hangout_lang', lang);
+      applyLanguageUI();
+      showToast(lang === 'zh' ? '已切换至中文' : 'Switched to English', 'success');
+    }
+
+    function applyLanguageUI() {
+      const t = i18n[currentLang] || i18n.en;
+
+      // Header & Navigation
+      const appTitle = document.querySelector('header h1');
+      if (appTitle) appTitle.innerText = t.appName;
+
+      const navUserSpan = document.querySelector('#navUserBtn span');
+      if (navUserSpan) navUserSpan.innerText = t.myBillTab;
+
+      const navPaiderSpan = document.querySelector('#navPaiderBtn span');
+      if (navPaiderSpan) navPaiderSpan.innerText = t.expensesTab;
+
+      const navAdminSpan = document.querySelector('#navAdminBtn span');
+      if (navAdminSpan) navAdminSpan.innerText = t.adminTab;
+
+      // Admin headers
+      const lblAdminTitle = document.getElementById('lblAdminTitle');
+      if (lblAdminTitle) lblAdminTitle.innerText = t.adminTitle;
+
+      const lblAdminDesc = document.getElementById('lblAdminDesc');
+      if (lblAdminDesc) lblAdminDesc.innerText = t.adminDesc;
+
+      const lblAdminDirectAccess = document.getElementById('lblAdminDirectAccess');
+      if (lblAdminDirectAccess) lblAdminDirectAccess.innerText = t.adminDirectAccess;
+
+      // Modal & Who Paid
+      const lblWhoPaid = document.getElementById('lblWhoPaid');
+      if (lblWhoPaid) lblWhoPaid.innerText = t.whoPaidLabel;
+
+      const btnSave = document.getElementById('btnSaveActivity');
+      if (btnSave && !isSavingActivity) btnSave.innerText = t.saveBtn;
+
+      // WhatsApp Banner
+      const lblSendTitle = document.getElementById('lblSendSummaryTitle');
+      if (lblSendTitle) lblSendTitle.innerText = t.sendSummaryTitle;
+
+      const lblSendDesc = document.getElementById('lblSendSummaryDesc');
+      if (lblSendDesc) lblSendDesc.innerText = t.sendSummaryDesc;
+
+      const lblSendBtn = document.getElementById('lblSendSummaryBtn');
+      if (lblSendBtn) lblSendBtn.innerText = t.sendSummaryBtn;
+
+      const lblPreviewBtn = document.getElementById('lblPreviewBtnText');
+      if (lblPreviewBtn) lblPreviewBtn.innerText = currentLang === 'zh' ? '预览' : 'Preview';
+
+      // WhatsApp Modal Elements
+      const lblWaModalTitle = document.getElementById('lblWaModalTitle');
+      if (lblWaModalTitle) lblWaModalTitle.innerText = t.waModalTitle;
+      const lblWaModalDesc = document.getElementById('lblWaModalDesc');
+      if (lblWaModalDesc) lblWaModalDesc.innerText = t.waModalDesc;
+      const lblWaPreview = document.getElementById('lblWaPreview');
+      if (lblWaPreview) lblWaPreview.innerText = t.waPreview;
+      const btnCopyWaText = document.getElementById('btnCopyWaText');
+      if (btnCopyWaText) btnCopyWaText.innerText = t.waCopyBtn;
+      const lblWaSendBtnText = document.getElementById('lblWaSendBtnText');
+      if (lblWaSendBtnText) lblWaSendBtnText.innerText = t.waShareBtn;
+      const btnWaClose = document.getElementById('btnWaClose');
+      if (btnWaClose) btnWaClose.innerText = t.waCloseBtn;
+
+      // Admin Preferences
+      const lblSysPref = document.getElementById('lblSysPrefTitle');
+      if (lblSysPref) lblSysPref.innerText = t.sysPreferences;
+
+      const lblLang = document.getElementById('lblLangTitle');
+      if (lblLang) lblLang.innerText = t.langTitle;
+
+      const lblLangDesc = document.getElementById('lblLangDesc');
+      if (lblLangDesc) lblLangDesc.innerText = t.langDesc;
+
+      const lblTheme = document.getElementById('lblThemeTitle');
+      if (lblTheme) lblTheme.innerText = t.themeTitle;
+
+      const lblThemeDesc = document.getElementById('lblThemeDesc');
+      if (lblThemeDesc) lblThemeDesc.innerText = t.themeDesc;
+
+      // Toggle button highlight styles
+      const btnEn = document.getElementById('btnLangEn');
+      const btnZh = document.getElementById('btnLangZh');
+      if (btnEn && btnZh) {
+        if (currentLang === 'en') {
+          btnEn.className = 'flex-1 py-1 rounded-md text-center transition bg-white text-indigo-700 shadow-xs font-bold';
+          btnZh.className = 'flex-1 py-1 rounded-md text-center transition text-slate-600 hover:text-slate-900 font-bold';
+        } else {
+          btnZh.className = 'flex-1 py-1 rounded-md text-center transition bg-white text-indigo-700 shadow-xs font-bold';
+          btnEn.className = 'flex-1 py-1 rounded-md text-center transition text-slate-600 hover:text-slate-900 font-bold';
+        }
+      }
+
+      // Refresh dynamic views
+      renderPaiderView();
+      renderAdminView();
+      if (selectedUserId) renderUserView();
+    }
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('hangout_theme', theme);
+      applyThemeUI();
+      showToast(theme === 'dark' ? 'Dark theme enabled' : 'Light theme enabled', 'info');
+    }
+
+    function applyThemeUI() {
+      const container = document.getElementById('appContainer');
+      const btnLight = document.getElementById('btnThemeLight');
+      const btnDark = document.getElementById('btnThemeDark');
+
+      if (currentTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.body.classList.remove('bg-slate-100');
+        document.body.classList.add('bg-slate-950');
+
+        if (container) {
+          container.classList.remove('bg-white', 'text-slate-900');
+          container.classList.add('bg-slate-900', 'text-slate-100', 'border-slate-800');
+        }
+
+        if (btnDark && btnLight) {
+          btnDark.className = 'flex-1 py-1 rounded-md text-center transition bg-slate-800 text-indigo-400 shadow-xs flex items-center justify-center gap-1 font-bold';
+          btnLight.className = 'flex-1 py-1 rounded-md text-center transition text-slate-500 hover:text-slate-300 flex items-center justify-center gap-1 font-bold';
+        }
+      } else {
+        document.body.classList.remove('dark');
+        document.body.classList.add('bg-slate-100');
+        document.body.classList.remove('bg-slate-950');
+
+        if (container) {
+          container.classList.add('bg-white', 'text-slate-900');
+          container.classList.remove('bg-slate-900', 'text-slate-100', 'border-slate-800');
+        }
+
+        if (btnLight && btnDark) {
+          btnLight.className = 'flex-1 py-1 rounded-md text-center transition bg-white text-amber-600 shadow-xs flex items-center justify-center gap-1 font-bold';
+          btnDark.className = 'flex-1 py-1 rounded-md text-center transition text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1 font-bold';
+        }
+      }
+      safeCreateIcons();
+    }
+
+    // ==============================================================
+    // 5. WHATSAPP SUMMARY GENERATOR & SHARING
+    // ==============================================================
+    function openWhatsAppModal() {
+      try {
+        if (!currentEvent) {
+          showToast(currentLang === 'zh' ? '请先选择或创建活动' : 'Please select or create an event first', 'error');
+          return;
+        }
+
+        updateWhatsAppMessageText();
+        const modal = document.getElementById('whatsAppModal');
+        if (modal) {
+          modal.classList.remove('hidden');
+        }
+        if (typeof lucide !== 'undefined') safeCreateIcons();
+      } catch (err) {
+        console.error("openWhatsAppModal error:", err);
+        showToast('Error opening summary: ' + (err && err.message ? err.message : err), 'error');
+      }
+    }
+
+    function closeWhatsAppModal() {
+      const modal = document.getElementById('whatsAppModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function generateWhatsAppSummaryText() {
+      if (!currentEvent) return "";
+
+      let grandTotal = 0;
+      const safeFriends = Array.isArray(friendsList) ? friendsList : [];
+      const safeActivities = Array.isArray(activitiesList) ? activitiesList : [];
+
+      const friendSpending = {};
+      const friendConsumption = {};
+
+      safeFriends.forEach(f => {
+        friendSpending[f.friendId] = 0;
+        friendConsumption[f.friendId] = 0;
+      });
+
+      // Pairwise Debt Graph
+      const debtGraph = {};
+      safeFriends.forEach(f1 => {
+        debtGraph[f1.friendId] = {};
+        safeFriends.forEach(f2 => { debtGraph[f1.friendId][f2.friendId] = 0; });
+      });
+
+      safeActivities.forEach(act => {
+        const payerId = act.paidByFriendId;
+        const taxMultiplier = 1 + (Number(act.sstPercent || 0) / 100) + (Number(act.serviceTaxPercent || 0) / 100);
+        let actSubtotal = 0;
+
+        (act.lineItems || []).forEach(item => {
+          const itemPrice = Number(item.price) || 0;
+          actSubtotal += itemPrice;
+
+          let assigned = [];
+          if (item.assignedFriends === 'ALL') {
+            assigned = safeFriends.map(f => f.friendId);
+          } else {
+            assigned = (item.assignedFriends || '').split(',').filter(Boolean);
+          }
+          if (assigned.length === 0) assigned = safeFriends.map(f => f.friendId);
+
+          const shareRaw = itemPrice / (assigned.length || 1);
+          const shareWithTax = shareRaw * taxMultiplier;
+
+          assigned.forEach(cId => {
+            if (friendConsumption[cId] !== undefined) friendConsumption[cId] += shareWithTax;
+            if (cId !== payerId && debtGraph[cId] && debtGraph[cId][payerId] !== undefined) {
+              debtGraph[cId][payerId] += shareWithTax;
+            }
+          });
+        });
+
+        const actTotal = actSubtotal * taxMultiplier;
+        grandTotal += actTotal;
+        if (friendSpending[payerId] !== undefined) friendSpending[payerId] += actTotal;
+      });
+
+      // Direct pairwise settlements
+      const settlements = [];
+      const checkedPairs = new Set();
+      safeFriends.forEach(fA => {
+        safeFriends.forEach(fB => {
+          if (fA.friendId !== fB.friendId) {
+            const pairKey = [fA.friendId, fB.friendId].sort().join('___');
+            if (!checkedPairs.has(pairKey)) {
+              checkedPairs.add(pairKey);
+              const aOwesB = (debtGraph[fA.friendId] && debtGraph[fA.friendId][fB.friendId]) || 0;
+              const bOwesA = (debtGraph[fB.friendId] && debtGraph[fB.friendId][fA.friendId]) || 0;
+              const diff = bOwesA - aOwesB;
+
+              if (diff > 0.01) {
+                settlements.push({ debtor: fB.friendName, creditor: fA.friendName, amount: diff });
+              } else if (diff < -0.01) {
+                settlements.push({ debtor: fA.friendName, creditor: fB.friendName, amount: Math.abs(diff) });
+              }
+            }
+          }
+        });
+      });
+
+      // Construct formatted text
+      const isZh = currentLang === 'zh';
+      const lines = [];
+      const appUrl = (typeof HARDCODED_GAS_URL !== 'undefined') ? HARDCODED_GAS_URL : "https://script.google.com/macros/s/AKfycbzv4PUNq7QbQTYGE7iyvN0-jqF8Slw6gsVxL0Juxv3ctVmbUebFEAYQuSSAsN5XBnge/exec";
+
+      if (isZh) {
+        lines.push(`🎉 *${currentEvent.eventName || "聚会活动"} - 费用分摊结账单* 📊`);
+        if (currentEvent.eventDate) lines.push(`📅 *聚会日期:* ${currentEvent.eventDate}`);
+        lines.push(`💰 *总支出金额:* $${grandTotal.toFixed(2)} (${safeActivities.length} 笔消费记录)`);
+        lines.push(``);
+
+        lines.push(`👥 *互相结账清算（谁欠谁）：*`);
+        if (settlements.length === 0) {
+          lines.push(`✅ 所有人账目已结清，无欠款！`);
+        } else {
+          settlements.forEach(s => {
+            lines.push(`• *${s.debtor}* 需转账给 *${s.creditor}*: $${s.amount.toFixed(2)}`);
+          });
+        }
+        lines.push(``);
+
+        lines.push(`📊 *个人收支明细：*`);
+        safeFriends.forEach(f => {
+          const paid = friendSpending[f.friendId] || 0;
+          const consumed = friendConsumption[f.friendId] || 0;
+          const net = paid - consumed;
+          const netBadge = net >= 0 ? `+$${net.toFixed(2)} 🟢 应收` : `-$${Math.abs(net).toFixed(2)} 🔴 应付`;
+          lines.push(`• ${f.friendName}: 垫付 $${paid.toFixed(2)} | 消费 $${consumed.toFixed(2)} (结算: ${netBadge})`);
+        });
+
+        lines.push(``);
+        lines.push(`👉 *点击进入聚会分账系统查看各项详细明细：*`);
+        lines.push(appUrl);
+      } else {
+        lines.push(`🎉 *${currentEvent.eventName || "Hangout"} - Expense Summary* 📊`);
+        if (currentEvent.eventDate) lines.push(`📅 *Date:* ${currentEvent.eventDate}`);
+        lines.push(`💰 *Total Spent:* $${grandTotal.toFixed(2)} (${safeActivities.length} ${safeActivities.length === 1 ? 'activity' : 'activities'})`);
+        lines.push(``);
+
+        lines.push(`👥 *Who Owes Whom (Settlements):*`);
+        if (settlements.length === 0) {
+          lines.push(`✅ Everyone is settled up! No outstanding debts.`);
+        } else {
+          settlements.forEach(s => {
+            lines.push(`• *${s.debtor}* owes *${s.creditor}*: $${s.amount.toFixed(2)}`);
+          });
+        }
+        lines.push(``);
+
+        lines.push(`📊 *Individual Breakdown:*`);
+        safeFriends.forEach(f => {
+          const paid = friendSpending[f.friendId] || 0;
+          const consumed = friendConsumption[f.friendId] || 0;
+          const net = paid - consumed;
+          const netBadge = net >= 0 ? `+$${net.toFixed(2)} 🟢` : `-$${Math.abs(net).toFixed(2)} 🔴`;
+          lines.push(`• ${f.friendName}: Spent $${paid.toFixed(2)} | Consumed $${consumed.toFixed(2)} (Net: ${netBadge})`);
+        });
+
+        lines.push(``);
+        lines.push(`👉 *Access cost split application to view more details:*`);
+        lines.push(appUrl);
+      }
+
+      return lines.join('\n');
+    }
+
+    function updateWhatsAppMessageText() {
+      try {
+        const text = generateWhatsAppSummaryText();
+        const textarea = document.getElementById('waMessageTextarea');
+        if (textarea) textarea.value = text;
+
+        const encoded = encodeURIComponent(text);
+        const waUrl = `https://api.whatsapp.com/send?text=${encoded}`;
+        const sendBtn = document.getElementById('btnWaSend');
+        if (sendBtn) {
+          sendBtn.href = waUrl;
+        }
+      } catch (err) {
+        console.error("updateWhatsAppMessageText error:", err);
+      }
+    }
+
+    async function copyWhatsAppMessageSilent(text) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return;
+        } catch(e) {}
+      }
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch(err) {}
+    }
+
+    async function copyWhatsAppMessage() {
+      const text = generateWhatsAppSummaryText();
+      const btnText = document.getElementById('btnCopyWaText');
+      
+      let copied = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        } catch(e) {}
+      }
+
+      if (!copied) {
+        // Fallback textarea execCommand
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          copied = true;
+          document.body.removeChild(ta);
+        } catch(err) {}
+      }
+
+      if (btnText) {
+        const orig = btnText.innerText;
+        btnText.innerText = currentLang === 'zh' ? '已复制！' : 'Copied!';
+        setTimeout(() => { btnText.innerText = orig; }, 2000);
+      }
+      showToast(currentLang === 'zh' ? '总结文本已复制到剪贴板！' : 'Summary copied to clipboard!', 'success');
+    }
+
+    async function handleShareSummaryClick() {
+      try {
+        if (!currentEvent) {
+          showToast(currentLang === 'zh' ? '请先选择或创建活动' : 'Please select or create an event first', 'error');
+          return;
+        }
+
+        const text = generateWhatsAppSummaryText();
+        if (!text) {
+          showToast(currentLang === 'zh' ? '暂无结算数据' : 'No settlement data available', 'info');
+          return;
+        }
+
+        // Silent copy backup
+        await copyWhatsAppMessageSilent(text);
+
+        // 1. Try Native Web Share API (Mobile OS Share sheet - triggers WhatsApp group selection)
+        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+          try {
+            await navigator.share({
+              title: currentEvent.eventName || (currentLang === 'zh' ? '聚会分账总结' : 'Hangout Expense Summary'),
+              text: text
+            });
+            return;
+          } catch (err) {
+            if (err && err.name === 'AbortError') {
+              // User cancelled share sheet
+              return;
+            }
+            console.warn('navigator.share failed or restricted, falling back:', err);
+          }
+        }
+
+        // 2. Direct mobile WhatsApp protocol (universal link / deep link)
+        const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) {
+          const encoded = encodeURIComponent(text);
+          if (typeof window !== 'undefined' && window.location) {
+            window.location.href = 'whatsapp://send?text=' + encoded;
+            return;
+          }
+        }
+
+        // 3. Fallback: Open modal preview on desktop
+        openWhatsAppModal();
+      } catch (err) {
+        console.error('handleShareSummaryClick error:', err);
+        openWhatsAppModal();
+      }
+    }
+
+    async function handleWaSendClick(event) {
+      if (event) event.preventDefault();
+      const text = generateWhatsAppSummaryText();
+      if (!text) return;
+      await copyWhatsAppMessageSilent(text);
+
+      // Try navigator.share first
+      if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+        try {
+          await navigator.share({
+            title: currentEvent ? currentEvent.eventName : 'Expense Summary',
+            text: text
+          });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+
+      // Mobile WhatsApp deep link
+      const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const encoded = encodeURIComponent(text);
+      if (isMobile && typeof window !== 'undefined' && window.location) {
+        window.location.href = 'whatsapp://send?text=' + encoded;
+      } else {
+        const waUrl = 'https://api.whatsapp.com/send?text=' + encoded;
+        window.open(waUrl, '_blank');
+      }
+    }
+
+    async function sendToWhatsApp() {
+      await handleWaSendClick(null);
+    }
+
+    // ==============================================================
+    // 6. RECEIPT IMAGE LIGHTBOX VIEWER
+    // ==============================================================
+    function openReceiptLightbox(url, title = "Receipt Image Source") {
+      if (!url) return;
+      document.getElementById('receiptLightboxImg').src = url;
+      document.getElementById('receiptLightboxTitle').innerText = title;
+      const driveLink = document.getElementById('receiptLightboxDriveLink');
+      driveLink.href = url;
+      document.getElementById('receiptLightboxModal').classList.remove('hidden');
+      safeCreateIcons();
+    }
+
+    function closeReceiptLightbox() {
+      document.getElementById('receiptLightboxModal').classList.add('hidden');
+      document.getElementById('receiptLightboxImg').src = '';
+    }
+
+    // ==============================================================
+    // 7. BULLETPROOF BOOTSTRAPPER (Immediate or DOMContentLoaded)
+    // ==============================================================
+    function initApp() {
+      try {
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.safeCreateIcons();
+        }
+      } catch (e) {
+        console.warn('Initial lucide icon render warning:', e);
+      }
+
+      try {
+        applyLanguageUI();
+      } catch (e) {
+        console.warn('applyLanguageUI warning:', e);
+      }
+
+      try {
+        applyThemeUI();
+      } catch (e) {
+        console.warn('applyThemeUI warning:', e);
+      }
+
+      try {
+        loadAppInitialData();
+      } catch (e) {
+        console.error('loadAppInitialData error:', e);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      // DOM is already parsed (common in GAS iframe / sandboxed environments)
+      initApp();
+    }
+  </script>
+</body>
+</html>

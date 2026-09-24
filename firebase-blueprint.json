@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "Event": {
+      "title": "Event",
+      "description": "A hangout or trip event containing friends and expense sessions",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the event"
+        },
+        "eventName": {
+          "type": "string",
+          "description": "Name of the event or hangout"
+        },
+        "eventDate": {
+          "type": "string",
+          "description": "Date of the event (YYYY-MM-DD)"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "UID or identifier of the creator"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["id", "eventName", "eventDate", "createdAt"]
+    },
+    "Friend": {
+      "title": "Friend",
+      "description": "An attendee in the hangout event",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the friend"
+        },
+        "friendName": {
+          "type": "string",
+          "description": "Display name of the friend"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        }
+      },
+      "required": ["id", "friendName"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "An expense session (meal, drinks, activity) within an event",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the expense activity"
+        },
+        "activityName": {
+          "type": "string",
+          "description": "Name or location of the activity"
+        },
+        "paidByFriendId": {
+          "type": "string",
+          "description": "ID of the friend who paid the bill"
+        },
+        "sstPercent": {
+          "type": "number",
+          "description": "SST percentage rate"
+        },
+        "serviceTaxPercent": {
+          "type": "number",
+          "description": "Service tax percentage rate"
+        },
+        "receiptImageUrl": {
+          "type": "string",
+          "description": "URL or base64 storage of the receipt image"
+        },
+        "lineItems": {
+          "type": "array",
+          "description": "Line items split in this session"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["id", "activityName", "paidByFriendId", "lineItems"]
+    }
+  },
+  "firestore": {
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Top-level collection of hangout events"
+    },
+    "/events/{eventId}/friends/{friendId}": {
+      "schema": "Friend",
+      "description": "Attendees registered for a specific hangout event"
+    },
+    "/events/{eventId}/activities/{activityId}": {
+      "schema": "Activity",
+      "description": "Expense sessions recorded under a specific hangout event"
+    }
+  }
+}

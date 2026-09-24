@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidEvent(data) {
+      return data.keys().hasAll(['id', 'eventName', 'eventDate', 'createdAt'])
+        && data.keys().hasOnly(['id', 'eventName', 'eventDate', 'createdBy', 'createdAt', 'updatedAt'])
+        && isValidId(data.id)
+        && data.eventName is string && data.eventName.size() > 0 && data.eventName.size() <= 120
+        && data.eventDate is string && data.eventDate.size() <= 30
+        && data.createdAt is string && data.createdAt.size() <= 40;
+    }
+
+    function isValidFriend(data) {
+      return data.keys().hasAll(['id', 'friendName'])
+        && data.keys().hasOnly(['id', 'friendName', 'createdAt'])
+        && isValidId(data.id)
+        && data.friendName is string && data.friendName.size() > 0 && data.friendName.size() <= 60;
+    }
+
+    function isValidActivity(data) {
+      return data.keys().hasAll(['id', 'activityName', 'paidByFriendId', 'lineItems'])
+        && data.keys().hasOnly(['id', 'activityName', 'paidByFriendId', 'sstPercent', 'serviceTaxPercent', 'receiptImageUrl', 'lineItems', 'createdAt', 'updatedAt'])
+        && isValidId(data.id)
+        && data.activityName is string && data.activityName.size() > 0 && data.activityName.size() <= 120
+        && data.paidByFriendId is string && data.paidByFriendId.size() > 0 && data.paidByFriendId.size() <= 64
+        && data.lineItems is list && data.lineItems.size() <= 150;
+    }
+
+    match /events/{eventId} {
+      allow get, list: if true;
+      allow create: if isValidId(eventId) && isValidEvent(request.resource.data) && request.resource.data.id == eventId;
+      allow update: if isValidId(eventId) && isValidEvent(request.resource.data) && request.resource.data.id == eventId;
+      allow delete: if isValidId(eventId);
+
+      match /friends/{friendId} {
+        allow get, list: if true;
+        allow create: if isValidId(friendId) && isValidFriend(request.resource.data) && request.resource.data.id == friendId;
+        allow update: if isValidId(friendId) && isValidFriend(request.resource.data) && request.resource.data.id == friendId;
+        allow delete: if isValidId(friendId);
+      }
+
+      match /activities/{activityId} {
+        allow get, list: if true;
+        allow create: if isValidId(activityId) && isValidActivity(request.resource.data) && request.resource.data.id == activityId;
+        allow update: if isValidId(activityId) && isValidActivity(request.resource.data) && request.resource.data.id == activityId;
+        allow delete: if isValidId(activityId);
+      }
+    }
+
+    // Health check & connection validation path
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

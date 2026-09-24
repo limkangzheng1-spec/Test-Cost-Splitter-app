@@ -1,0 +1,6 @@
+{
+  "name": "Hangout Expense Splitter",
+  "description": "Mobile-first hangout expense splitting application with granular item split, pairwise debt settlement, and real-time Firebase cloud sync.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": []
+}
